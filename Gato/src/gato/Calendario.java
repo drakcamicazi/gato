@@ -22,15 +22,36 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import com.github.lgooddatepicker.components.DatePicker;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
 /**
  *
  * @author drakcamicazi
  */
+
+class Box extends JPanel{
+    MouseListener m;
+    public Box(Integer dia){
+        m = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e){
+                Calendario c = new Calendario();
+            }
+        };
+        setSize(50, 50);
+        setBackground(Color.red);
+        add(new Label(dia.toString()));
+        addMouseListener(m);
+        
+    }
+};
 public class Calendario extends JFrame implements ActionListener{
     
     private JButton btnFechar = new JButton("Sair");
@@ -38,14 +59,13 @@ public class Calendario extends JFrame implements ActionListener{
     private DatePicker dp = new DatePicker();
     private JPanel pnlPrincipal;
     
-    
-    
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public Calendario(){
         pnlPrincipal = new JPanel(new GridLayout(6, 7));
         setVisible(true);
         setTitle("Calendario");
         setBounds(100, 100, 1400, 800);
+ 
         
         setLayout(bl);
         
@@ -58,7 +78,7 @@ public class Calendario extends JFrame implements ActionListener{
         
         pnlPrincipal.setMaximumSize(new Dimension(50, 50));
         pnlPrincipal.setBackground(java.awt.Color.blue);
-        pnlPrincipal.add(new Label("1"));
+        pnlPrincipal.add(new Box(1));
         pnlPrincipal.add(new Label("2"));
         pnlPrincipal.add(new Label("3"));
         pnlPrincipal.add(new Label("4"));
