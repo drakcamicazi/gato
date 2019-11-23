@@ -16,12 +16,13 @@
  */
 package gato;
 
+import Elementos.Box;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import com.github.lgooddatepicker.components.DatePicker;
+//import com.github.lgooddatepicker.components.DatePicker;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -63,6 +64,10 @@ public class Calendario extends JFrame implements ActionListener{
     
     private JButton btnFechar = new JButton("Sair");
     private BorderLayout bl = new BorderLayout(50, 100);
+<<<<<<< Updated upstream
+=======
+    //private DatePicker dp = new DatePicker();
+>>>>>>> Stashed changes
     private JPanel pnlPrincipal;
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
