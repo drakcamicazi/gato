@@ -29,6 +29,9 @@ import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -42,7 +45,11 @@ class Box extends JPanel{
         m = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e){
-                Calendario c = new Calendario();
+                try {
+                    Calendario c = new Calendario();
+                } catch (SQLException ex) {
+                    Logger.getLogger(Box.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
         setSize(50, 50);
@@ -56,11 +63,10 @@ public class Calendario extends JFrame implements ActionListener{
     
     private JButton btnFechar = new JButton("Sair");
     private BorderLayout bl = new BorderLayout(50, 100);
-    private DatePicker dp = new DatePicker();
     private JPanel pnlPrincipal;
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
-    public Calendario(){
+    public Calendario() throws SQLException{
         pnlPrincipal = new JPanel(new GridLayout(6, 7));
         setVisible(true);
         setTitle("Calendario");
@@ -80,7 +86,7 @@ public class Calendario extends JFrame implements ActionListener{
         pnlPrincipal.setBackground(java.awt.Color.blue);
         pnlPrincipal.add(new Box(1));
         pnlPrincipal.add(new Label("2"));
-        pnlPrincipal.add(new Label("3"));
+        pnlPrincipal.add(new Label(carregarDia(12, 12, 2019)));
         pnlPrincipal.add(new Label("4"));
         pnlPrincipal.add(new Label("5"));
         pnlPrincipal.add(new Label("6"));
@@ -147,8 +153,28 @@ public class Calendario extends JFrame implements ActionListener{
         }
         
     }
+    
+    static String carregarDia(int dia, int mes, int ano) throws SQLException{
+        String s = "";
+        Database db = new Database();        
+        db.conectar();
+        db.setStm(db.getConexao().createStatement());        
+        db.setRs(db.getStm().executeQuery("select titulo, atividade, feriado, favorito from Evento where dia = '" + ano + "-" + mes + "-" + dia + "' order by hora_inicio asc; ")); 
+    
+        while(db.getRs().next()){
+            //System.out.println(db.getRs().getString("titulo")+", "+db.getRs().getString("favorito"));
+            s = s + db.getRs().getString("titulo") + "\n";
+        }
+        return s;
+    }
+    
         
-    public static void main (String[] args){
+    public static void main (String[] args) throws SQLException{
         Calendario c = new Calendario();
+        try {
+            System.out.println(carregarDia(12, 12, 2019));
+        } catch (SQLException ex) {
+            Logger.getLogger(Calendario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
