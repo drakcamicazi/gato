@@ -5,6 +5,15 @@
  */
 package Telas;
 
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
@@ -16,6 +25,44 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
      */
     public AdicionarEventoSemanal() {
         initComponents();
+    }
+    
+    private void salvar(){
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String titulo, horaIni, horaFin, minIni, minFin, diaSemana;
+        titulo = jTextField1.getText();
+        diaSemana = jComboBox1.getSelectedItem().toString();
+        horaIni = jComboBox4.getSelectedItem().toString();
+        minIni = jComboBox5.getSelectedItem().toString();
+        horaFin = jComboBox6.getSelectedItem().toString();
+        minFin = jComboBox7.getSelectedItem().toString();
+        
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            pstm = conexao.prepareStatement("insert into Evento_Semanal values (null, ?, ?, ?, ?)");
+
+            pstm.setString(1, titulo);
+            pstm.setString(2, diaSemana);
+            pstm.setString(3, horaIni +":"+ minIni);
+            pstm.setString(4, horaFin +":"+ minFin);
+            
+            pstm.execute();
+            pstm.close();
+            conexao.close();
+            
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar.");
+            System.err.println(excp);
+        }
     }
 
     /**
@@ -49,6 +96,8 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 38, 567, 27));
 
+        jTextField2.setEditable(false);
+        jTextField2.setText("Não tem descrição aqui. Por favor me elimine.");
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -56,14 +105,14 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
         });
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 91, 567, 27));
 
-        jLabel1.setText("Adicioar Título");
+        jLabel1.setText("Título");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 18, -1, -1));
 
         jLabel2.setText("Descrição");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 71, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 80, -1));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" }));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 140, -1));
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         getContentPane().add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 264, 58, -1));
@@ -102,6 +151,11 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 223, -1, -1));
 
         jButton2.setText("Avançar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(448, 296, -1, -1));
 
         jLabel8.setText(":");
@@ -116,8 +170,11 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /** 
+     * Fechar apenas a janela atual
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.exit(0);
+        AdicionarEventoSemanal.this.dispose(); 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
@@ -131,6 +188,13 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    /** 
+     * Gatilho do botão Avançar para chamar a função salvar()
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        salvar();        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,22 +212,16 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdicionarEventoSemanal().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new AdicionarEventoSemanal().setVisible(true);
         });
     }
 

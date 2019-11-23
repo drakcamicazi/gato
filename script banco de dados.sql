@@ -9,9 +9,9 @@ create table Evento (
     hora_inicio time not null default '00:00',
     hora_fim time not null default '23:59',
     descricao varchar(255) not null default '',
-    atividade bit(1) not null default 0,
-    feriado bit(1) not null default 0,
-    favorito bit(1) not null default 0,
+    atividade int not null,
+    feriado int not null,
+    favorito int not null,
     
     primary key (pk_evento)
 );

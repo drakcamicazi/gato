@@ -5,6 +5,15 @@
  */
 package Telas;
 
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
@@ -16,6 +25,65 @@ public class AdicionarEvento extends javax.swing.JFrame {
      */
     public AdicionarEvento() {
         initComponents();
+    }
+private void salvar(){
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String titulo, horaIni, horaFin, minIni, minFin, descricao, ano, mes, dia;
+        int favorito, escolar, feriado;
+        titulo = jTextField1.getText();
+        descricao = jTextField2.getText();
+        ano = jComboBox1.getSelectedItem().toString();
+        mes = jComboBox6.getSelectedItem().toString();
+        dia = jComboBox7.getSelectedItem().toString();
+        horaIni = jComboBox2.getSelectedItem().toString();
+        minIni = jComboBox4.getSelectedItem().toString();
+        horaFin = jComboBox3.getSelectedItem().toString();
+        minFin = jComboBox5.getSelectedItem().toString();
+        if (jRadioButton1.isSelected())
+            favorito = 1;
+        else
+            favorito = 0;
+        
+        if (jRadioButton2.isSelected())
+            escolar = 1;
+        else
+            escolar = 0;
+        
+        if (jRadioButton3.isSelected())
+            feriado = 1;
+        else
+            feriado = 0;
+        
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            pstm = conexao.prepareStatement("insert into Evento values (null, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            pstm.setString(1, titulo);
+            pstm.setString(2, ano +"-"+ mes +"-"+ dia);
+            pstm.setString(3, horaIni +":"+ minIni);
+            pstm.setString(4, horaFin +":"+ minFin);
+            pstm.setString(5, descricao);
+            pstm.setInt(6, escolar);
+            pstm.setInt(7, feriado);
+            pstm.setInt(8, favorito);
+            
+            pstm.execute();
+            pstm.close();
+            conexao.close();
+            
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar.");
+            System.err.println(excp);
+        }
     }
 
     /**
@@ -70,6 +138,11 @@ public class AdicionarEvento extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton2.setText("Avançar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(533, 321, -1, -1));
 
         jButton3.setText("Cancelar");
@@ -92,7 +165,7 @@ public class AdicionarEvento extends javax.swing.JFrame {
         });
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 89, 567, 27));
 
-        jLabel1.setText("Adicionar Título");
+        jLabel1.setText("Título");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 15, -1, -1));
 
         jLabel2.setText("Descrição");
@@ -149,7 +222,7 @@ public class AdicionarEvento extends javax.swing.JFrame {
         jLabel8.setText("Marcar Evento como : ");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 134, -1, -1));
 
-        jRadioButton1.setText("Favoríto");
+        jRadioButton1.setText("Favorito");
         getContentPane().add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 161, -1, -1));
 
         jRadioButton2.setText("Escolar");
@@ -170,10 +243,11 @@ public class AdicionarEvento extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    /** 
+     * Fechar apenas a janela atual
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        //usuario clicou em Cancelar
-        System.exit(0);
+        AdicionarEvento.this.dispose(); 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -187,6 +261,13 @@ public class AdicionarEvento extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
+    
+    /** 
+     * Gatilho do botão Avançar para chamar a função salvar()
+     */
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       salvar();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
