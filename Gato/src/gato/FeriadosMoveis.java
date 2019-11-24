@@ -26,8 +26,19 @@ import java.util.Calendar;
 
 public class FeriadosMoveis {
     
-    private void FeriadosMoveis()
-    {}
+    public int diapascoa, mespascoa, diacarnaval, mescarnaval, diasextafeirasanta, messextafeirasanta, diacorpuschrist, mescorpuschrist;
+  
+    public FeriadosMoveis(int ano){
+        
+        this.diapascoa = diaPascoa(ano);
+        this.mespascoa = mesPascoa(ano);
+        this.diacarnaval = diaCarnaval(ano);
+        this.mescarnaval = mesCarnaval(ano);
+        this.diasextafeirasanta = diaSextaFeiraSanta(ano);
+        this.messextafeirasanta = mesSextaFeiraSanta(ano);
+        this.diacorpuschrist = diaCorpusChrist(ano);
+        this.mescorpuschrist = mesCorpusChrist(ano);
+    }
     
     public static int mesPascoa(int ano){
 	

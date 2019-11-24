@@ -1342,25 +1342,13 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotaoAddEventoActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="BotaoRemoveEvento">
+            <Component class="javax.swing.JButton" name="BotaoRemoverSemanal">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Remover Evento"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JButton" name="BotaoExpEscolares">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Expandir Provas e Trabalhos"/>
+                <Property name="text" type="java.lang.String" value="Remover Evento Semanal"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotaoExpEscolaresActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="BotaoExpFavo">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Expandir Favoritos"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotaoExpFavoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotaoRemoverSemanalActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

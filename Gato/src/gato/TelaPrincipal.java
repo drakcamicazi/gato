@@ -7,6 +7,7 @@ package gato;
 
 import java.awt.Color;
 import java.awt.HeadlessException;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -33,13 +34,82 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         this.setTitle("G.A.T.O. - Aplicação de Gestão de Atividades, Trabalhos e Obrigações");
+        inserirFeriadosMoveis();
         initComponents();
         hoje = LocalDateTime.now();
         mesExibido = hoje.getMonth().getValue();
         anoExibido = hoje.getYear();
-        //preencherCalendario(mesExibido, anoExibido);
-        //preencherListaEventosFav();
-        //preencherListaEventosAtiv();
+        preencherCalendario(mesExibido, anoExibido);
+        preencherListaEventosFav();
+        preencherListaEventosAtiv();
+    }
+    
+    //inserirFeriadosMoveis insere todos os feriados de data não-fixa, se já não estiverem no banco
+    public void inserirFeriadosMoveis(){
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm;
+        FeriadosMoveis fm;
+        ResultSet rs;
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            
+            pstm = conexao.prepareStatement("select * from evento where descricao = 'Feriado Católico'");
+            rs = pstm.executeQuery();
+            if (rs.next() == false){
+                pstm.close();
+                //adicionar feriados de 2013 até 2025
+                for(int ano = 2013; ano <= 2025; ano++){
+                    fm = new FeriadosMoveis(ano);
+
+                    //bloco para registar Carnaval
+                    pstm = conexao.prepareStatement("insert into Evento values (null, ?, ?, '00:00', '23:00', ?, 0, 1, 0)");
+                    pstm.setString(1, "Carnaval");
+                    pstm.setString(2, ano + "-" + fm.mescarnaval + "-" + fm.diacarnaval);
+                    pstm.setString(3, "Feriado Católico");
+                    pstm.execute();
+                    pstm.close();
+
+                    //bloco para registar Corpus Christ
+                    pstm = conexao.prepareStatement("insert into Evento values (null, ?, ?, '00:00', '23:00', ?, 0, 1, 0)");
+                    pstm.setString(1, "Corpus Christ");
+                    pstm.setString(2, ano + "-" + fm.mescorpuschrist + "-" + fm.diacorpuschrist);
+                    pstm.setString(3, "Feriado Católico");
+                    pstm.execute();
+                    pstm.close();
+
+                    //bloco para registar Pascoa
+                    pstm = conexao.prepareStatement("insert into Evento values (null, ?, ?, '00:00', '23:00', ?, 0, 1, 0)");
+                    pstm.setString(1, "Páscoa");
+                    pstm.setString(2, ano + "-" + fm.mespascoa + "-" + fm.diapascoa);
+                    pstm.setString(3, "Feriado Católico");
+                    pstm.execute();
+                    pstm.close();
+
+                    //bloco para registar Sexta-Feira santa
+                    pstm = conexao.prepareStatement("insert into Evento values (null, ?, ?, '00:00', '23:00', ?, 0, 1, 0)");
+                    pstm.setString(1, "Sexta-Feira Santa");
+                    pstm.setString(2, ano + "-" + fm.messextafeirasanta + "-" + fm.diasextafeirasanta);
+                    pstm.setString(3, "Feriado Católico");
+                    pstm.execute();
+                    pstm.close();
+                }
+            }
+            pstm.close();            
+            conexao.close();
+            
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar feriados.");
+            System.err.println(excp);
+        }
+        
     }
     
     private void preencherCalendario(int mes, int ano){
@@ -68,7 +138,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     break;
            }
             if(numDia == hoje.getDayOfMonth() && mes == hoje.getMonth().getValue() && ano == hoje.getYear()){
-                getPanel(j, i % 7).setBackground(new Color(150, 150, 230));
+                getPanel(j, i % 7).setBackground(new Color(183, 247, 197));
             }
         }
         
@@ -89,23 +159,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
     
     private void desabilitarDia(int x, int y){        
+        MouseListener[] ml = getPanel(x, y).getMouseListeners();
         getPanel(x, y).setBackground(new Color(180, 180, 180));
-        getPanel(x, y).removeMouseListener(getPanel(x, y).getMouseListeners()[0]);
+        for (MouseListener ml1 : ml) {
+            getPanel(x, y).removeMouseListener(ml1);
+        }
     }
     
     private void habilitarDia(int x, int y){        
         getPanel(x, y).setBackground(new Color(214, 217, 223));//cores default
         getPanel(x, y).addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {                
             }
         });
     }
     
     private void preencherDia(Integer dia, int x, int y){
-        getPanel(x, y).setLayout(new BoxLayout(getPanel(x, y), BoxLayout.PAGE_AXIS));
+        JPanel panelAtual = getPanel(x, y);
+        panelAtual.setLayout(new BoxLayout(panelAtual, BoxLayout.PAGE_AXIS));
         JLabel aux = new JLabel(dia.toString());
         aux.setFont(aux.getFont().deriveFont(14.0f));
-        getPanel(x, y).add(aux);
+        panelAtual.add(aux);
         
         String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
         Connection conexao;
@@ -119,7 +194,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         try {
             conexao = DriverManager.getConnection(url, usuario, senha);
-            pstm = conexao.prepareStatement("select titulo from evento where dia = ? order by dia asc, hora_inicio asc");
+            pstm = conexao.prepareStatement("select titulo, feriado from evento where dia = ? order by dia asc, hora_inicio asc");
             pstm.setString(1, anoExibido +"-"+ mesExibido +"-"+ dia);
             
             pstm.execute();
@@ -127,16 +202,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
             while (rs.next()) {
                 JLabel l = new JLabel(rs.getString("titulo"));
-                getPanel(x, y).add(l);                
+                panelAtual.add(l);                
+                if (rs.getInt("feriado") == 1){
+                    panelAtual.setBackground(new Color(242, 249, 255));
+                }
             }
             pstm.close();
             conexao.close();
         } catch (HeadlessException | SQLException excp) {
-            JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
+            JOptionPane.showMessageDialog(null, "Erro ao carregar feriados no banco.");
             System.err.println(excp);
         }
-        getPanel(x, y).removeMouseListener(getPanel(x, y).getMouseListeners()[0]);
-        getPanel(x, y).addMouseListener(new java.awt.event.MouseAdapter() {
+        panelAtual.removeMouseListener(panelAtual.getMouseListeners()[0]);
+        panelAtual.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 abrirListarDia(dia, mesExibido, anoExibido);
             }
@@ -146,6 +224,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void limparCalendario() {
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <=7; j++) {
+               desabilitarDia(i, j);
                getPanel(i, j).removeAll();
                getPanel(i, j).revalidate();
                getPanel(i, j).repaint();
@@ -259,9 +338,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         PainelBotoes = new javax.swing.JPanel();
         BotaoAddEventoSemanal = new javax.swing.JButton();
         BotaoAddEvento = new javax.swing.JButton();
-        BotaoRemoveEvento = new javax.swing.JButton();
-        BotaoExpEscolares = new javax.swing.JButton();
-        BotaoExpFavo = new javax.swing.JButton();
+        BotaoRemoverSemanal = new javax.swing.JButton();
         PainelTabelas = new javax.swing.JPanel();
         tabelaFavorito = new javax.swing.JPanel();
         panelTitulo = new javax.swing.JPanel();
@@ -1234,24 +1311,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         PainelBotoes.add(BotaoAddEvento);
 
-        BotaoRemoveEvento.setText("Remover Evento");
-        PainelBotoes.add(BotaoRemoveEvento);
-
-        BotaoExpEscolares.setText("Expandir Provas e Trabalhos");
-        BotaoExpEscolares.addActionListener(new java.awt.event.ActionListener() {
+        BotaoRemoverSemanal.setText("Remover Evento Semanal");
+        BotaoRemoverSemanal.setToolTipText("");
+        BotaoRemoverSemanal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotaoExpEscolaresActionPerformed(evt);
+                BotaoRemoverSemanalActionPerformed(evt);
             }
         });
-        PainelBotoes.add(BotaoExpEscolares);
-
-        BotaoExpFavo.setText("Expandir Favoritos");
-        BotaoExpFavo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotaoExpFavoActionPerformed(evt);
-            }
-        });
-        PainelBotoes.add(BotaoExpFavo);
+        PainelBotoes.add(BotaoRemoverSemanal);
 
         InformacoesExtras.add(PainelBotoes);
 
@@ -1605,13 +1672,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         new  AdicionarEvento().setVisible(true);
     }//GEN-LAST:event_BotaoAddEventoActionPerformed
 
-    private void BotaoExpEscolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpEscolaresActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotaoExpEscolaresActionPerformed
-
-    private void BotaoExpFavoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpFavoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotaoExpFavoActionPerformed
+    private void BotaoRemoverSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoRemoverSemanalActionPerformed
+        
+        new  DeletarSemanal().setVisible(true);
+    }//GEN-LAST:event_BotaoRemoverSemanalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1654,9 +1718,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotaoAddEvento;
     private javax.swing.JButton BotaoAddEventoSemanal;
-    private javax.swing.JButton BotaoExpEscolares;
-    private javax.swing.JButton BotaoExpFavo;
-    private javax.swing.JButton BotaoRemoveEvento;
+    private javax.swing.JButton BotaoRemoverSemanal;
     private javax.swing.JPanel Dias;
     private javax.swing.JPanel DiasSemana;
     private javax.swing.JLabel Domingo;
