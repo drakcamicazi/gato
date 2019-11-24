@@ -8,61 +8,131 @@ package CalendarioRotina;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-/**
+/**Calendario de Rotinas 
  *
  * @author USER
  */
 public class CalendarioRotina extends javax.swing.JFrame {
-    private int num = 0;
-    private String dia = "Segunda";
+    private int[] quantidade_eventos = new int[8];
+    private String[][] infos = new String[25][8];
+    private int[][] duracao = new int[25][8];
+    private int[][] codigoHoras = new int[25][8];
+    private String[][] queHorasComeca = new String[25][8];
     
+    public void setQuantidadeEventos( int[] qntd ){
+        quantidade_eventos = qntd;
+    }
+    
+    public void setInfos( String[][] infos ){
+        this.infos = infos;
+    }
+    
+    public void setDuracao( int[][] duracao ){
+        this.duracao = duracao;
+    }
+    
+    public void setQueHorasComeca( String[][] queHorasComeca ){
+        this.queHorasComeca = queHorasComeca;
+    }
+    
+    public int[] getQuantidadeEventos(){
+        return quantidade_eventos;
+    }
+    
+    public String[][] getInfos(){
+        return infos;
+    }
+    
+    public int[][] getDuracao(){
+        return duracao;
+    }
+    
+    public int[][] getCodigoHoras(){
+        return codigoHoras;
+    }
+    
+    public String[][] getQueHorasComeca(){
+        return queHorasComeca;
+    }
     /**
      * Creates new form CalendarioRotina
      */
-    public CalendarioRotina( int num, String dia, String[] infos, String[] queHorasComeca, String[] queHorasTermina ) { // Preciso de quantos eventos vao ser adicionados em um dia, um vetor com os nomes destes(em ordem de horario das 00:00 ate 24:00), um vetor de qual hora esse evento ocorre e qual dia( ex: Segunda )
-        this.num = num;
-        this.dia = dia;
-        infos = new String[num];
-        for(int i = 0; i <= num; i++){
-            int[i] horasInicio = QueHoras(String queHorasComeca);
-            int[i] horasFim = QueHoras(String queHorasTermina);
-        }
+    public CalendarioRotina() { // Preciso de quantos eventos vao ser adicionados em cada dia, um vetor com os nomes destes(em ordem de horario das 00:00 ate 24:00), um vetor de qual hora esse evento ocorre e qual dia( ex: Segunda )
         
         initComponents();
-        addRowToJTable( num, dia, infos, horasInicio, horasFim );
     }
     
-    public int QueHoras( String queHoras ){
+    public int QueHoras( String queHorasComeca ){
         int hora = 0;
+        String horario = queHorasComeca;
         
-        switch( queHoras ){
+        if(horario == null){
+            horario = "";
+        }
+        
+        switch( horario ){
             case "00:00": hora = 0;
+                          break;
             case "01:00": hora = 1;
+                          break;
             case "02:00": hora = 2;
+                          break;
             case "03:00": hora = 3;
+                          break;
             case "04:00": hora = 4;
+                          break;
             case "05:00": hora = 5;
+                          break;
             case "06:00": hora = 6;
+                          break;
             case "07:00": hora = 7;
+                          break;
             case "08:00": hora = 8;
+                          break;
             case "09:00": hora = 9;
+                          break;
             case "10:00": hora = 10;
+                          break;
             case "11:00": hora = 11;
+                          break;
             case "12:00": hora = 12;
+                          break;
             case "13:00": hora = 13;
+                          break;
             case "14:00": hora = 14;
+                          break;
             case "15:00": hora = 15;
+                          break;
             case "16:00": hora = 16;
+                          break;
             case "17:00": hora = 17;
+                          break;
             case "18:00": hora = 18;
+                          break;
             case "19:00": hora = 19;
+                          break;
             case "20:00": hora = 20;
+                          break;
             case "21:00": hora = 21;
+                          break;
             case "22:00": hora = 22;
+                          break;
             case "23:00": hora = 23;
+                          break;
             case "24:00": hora = 24;
+                          break;
+            default: hora = -1;
+                     break;
         } 
         return hora;
+    }
+    
+    public void CodigosHoras( String[][] queHorasComeca ){
+        for(int i = 1; i < 8; i++){
+            for(int j = 0; j < 25; j++){   
+               codigoHoras[j][i] = QueHoras(queHorasComeca[j][i]);
+            }
+        }
     }
     
     public class Horas{
@@ -79,41 +149,7 @@ public class CalendarioRotina extends javax.swing.JFrame {
         public Info(String Informacao){
             this.informacao = Informacao;
         }
-    }
-    
-    // Le a string do dia (ex: segunda) em o numero de acordo na tabela
-    public int AddToTabela(String dia){ 
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        int dia_num = 0;
-        
-        switch(dia){
-            case "Domingo":
-            case "domingo": dia_num = 1;
-            
-            case "Segunda":
-            case "segunda": dia_num = 2;
-            
-            case "Terça":
-            case "terça": 
-            case "Terca":
-            case "terca":  dia_num = 3;
-            
-            case "Quarta":
-            case "quarta": dia_num = 4;
-            
-            case "Quinta":
-            case "quinta": dia_num = 5;
-            
-            case "Sexta":
-            case "sexta": dia_num = 6;
-            
-            case "Sábado":
-            case "sábado": 
-            case "Sabado":
-            case "sabado": dia_num = 7;
-        }
-        return dia_num;
-    }
+    }   
     
     public ArrayList ListHoras(){
         ArrayList<Horas> listH = new ArrayList<>();
@@ -171,21 +207,39 @@ public class CalendarioRotina extends javax.swing.JFrame {
         return listH;
     }
         
-    public void addRowToJTable( int num, String dia, String[] infos, int[] horasInicio, int[] horasFim){
+    public void addRowToJTable( int[] quantidade_eventos, String[][] infos, String[][] queHorasComeca, int[][] duracao){
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         ArrayList<Horas> listH = ListHoras();
-        Object rowData[] = new Object[ num + 1];
+        Object rowData[] = new Object[1];
         for(int i = 0; i < listH.size(); i++){
             rowData[0] = listH.get(i).horario;
             model.addRow(rowData);
         }
-            
-        for( int i = 0; i <= num; i++ ){
-            if( i == horasInicio[]){
-                model.setValueAt(infos[i], i, AddToTabela(dia));
+        
+        CodigosHoras(queHorasComeca);
+        
+        int k = 0;
+        for(int i = 1; i < 8; i++){
+            if( quantidade_eventos[i] > 0 ){
+                for(int j = 0; j < 25; j++){
+                    if( codigoHoras[j][i] != -1 ){
+                        if(duracao[j][i] > 1){
+                            for(k = 0; k < duracao[j][i]; k++){
+                                model.setValueAt(infos[j][i], j + k, i);
+                            }
+                            j = j + k;
+
+                        }else{
+                            if(duracao[j][i] == 1){
+                                model.setValueAt(infos[j][i], j, i);
+                            }
+                        }
+                    }else{
+                        model.setValueAt("", j, i);
+                    }
+                }
             }
         }
-        
         
     }
 
@@ -231,22 +285,7 @@ public class CalendarioRotina extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(7).setResizable(false);
         }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
