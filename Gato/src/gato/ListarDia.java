@@ -16,18 +16,110 @@
  */
 package gato;
 
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.YES_OPTION;
+
 /**
  *
  * @author guscc
  */
 public class ListarDia extends javax.swing.JFrame {
+    Integer ano, dia, mes;
 
     /**
      * Creates new form ListarDia
      */
-    public ListarDia(Integer codDia) {
+    public ListarDia(Integer dia, Integer mes, Integer ano) {
         initComponents();
-        diaAtual.setText(" " + codDia.toString());
+        this.ano = ano;
+        this.mes = mes;
+        this.dia = dia;
+        diaAtual.setText("   Data: " +dia + "/" + mes + "/" + ano);
+        preencherListaEventos();
+    }
+    
+    private void preencherListaEventos()
+    {
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm;
+        ResultSet rs;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            pstm = conexao.prepareStatement("select pk_evento, titulo, descricao, hora_inicio, hora_fim, atividade, feriado, favorito from evento where dia = ? order by hora_inicio asc");
+            pstm.setString(1, ano +"-"+ mes +"-"+ dia);
+            
+            pstm.execute();
+            rs = pstm.getResultSet();
+
+            while (rs.next()) {
+                int cod = rs.getInt("pk_evento");
+                JLabel l = new JLabel(cod +". "+ rs.getString("hora_inicio") + " - "+rs.getString("hora_fim") + ": " + rs.getString("titulo") +", "+ rs.getString("descricao"));
+                l.setFont(l.getFont().deriveFont (16.0f));
+                l.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        deletar(cod);
+                    }
+                });
+                listaEventos.add(l);                
+            }
+            pstm.close();
+            conexao.close();
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
+            System.err.println(excp);
+        }
+    }    
+    
+    private void deletar(int cod) {
+        int n = JOptionPane.showConfirmDialog(null, "Deseja mesmo deletar o evento " + cod + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+
+        if (n == YES_OPTION) {
+            String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+            Connection conexao;
+            PreparedStatement pstm;
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                conexao = DriverManager.getConnection(url, usuario, senha);
+                pstm = conexao.prepareStatement("delete from Evento where pk_evento = ?");
+
+                pstm.setInt(1, cod);
+
+                pstm.execute();
+                pstm.close();
+                conexao.close();
+
+                JOptionPane.showMessageDialog(null, "Evento " + cod + " deletado com sucesso!");
+            } catch (HeadlessException | SQLException excp) {
+                JOptionPane.showMessageDialog(null, "Erro ao deletar.");
+                System.err.println(excp);
+            }
+
+            ListarDia.this.dispose();
+            ListarDia ld = new ListarDia(dia, mes, ano);
+            ld.setVisible(true);
+        }
     }
 
     /**
@@ -39,34 +131,12 @@ public class ListarDia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        EventosScroll = new javax.swing.JScrollPane();
-        EventosPanel = new javax.swing.JPanel();
         diaAtual = new javax.swing.JLabel();
         Fechar = new javax.swing.JButton();
+        scrollEventos = new javax.swing.JScrollPane();
+        listaEventos = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        EventosScroll.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        EventosScroll.setMinimumSize(new java.awt.Dimension(100, 100));
-
-        EventosPanel.setMinimumSize(new java.awt.Dimension(100, 100));
-        EventosPanel.setName(""); // NOI18N
-        EventosPanel.setPreferredSize(new java.awt.Dimension(757, 486));
-
-        javax.swing.GroupLayout EventosPanelLayout = new javax.swing.GroupLayout(EventosPanel);
-        EventosPanel.setLayout(EventosPanelLayout);
-        EventosPanelLayout.setHorizontalGroup(
-            EventosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 761, Short.MAX_VALUE)
-        );
-        EventosPanelLayout.setVerticalGroup(
-            EventosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
-        );
-
-        EventosScroll.setViewportView(EventosPanel);
-
-        getContentPane().add(EventosScroll, java.awt.BorderLayout.CENTER);
 
         diaAtual.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         diaAtual.setText("Dia");
@@ -80,6 +150,18 @@ public class ListarDia extends javax.swing.JFrame {
             }
         });
         getContentPane().add(Fechar, java.awt.BorderLayout.SOUTH);
+
+        scrollEventos.setMinimumSize(new java.awt.Dimension(150, 350));
+        scrollEventos.setPreferredSize(new java.awt.Dimension(1000, 350));
+
+        listaEventos.setMaximumSize(new java.awt.Dimension(10000, 10000));
+        listaEventos.setMinimumSize(new java.awt.Dimension(100, 100));
+        listaEventos.setName(""); // NOI18N
+        listaEventos.setPreferredSize(new java.awt.Dimension(900, 800));
+        listaEventos.setLayout(new javax.swing.BoxLayout(listaEventos, javax.swing.BoxLayout.PAGE_AXIS));
+        scrollEventos.setViewportView(listaEventos);
+
+        getContentPane().add(scrollEventos, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -118,15 +200,15 @@ public class ListarDia extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new ListarDia().setVisible(true);
+                new ListarDia(23, 11, 2019).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel EventosPanel;
-    private javax.swing.JScrollPane EventosScroll;
     private javax.swing.JButton Fechar;
     private javax.swing.JLabel diaAtual;
+    private javax.swing.JPanel listaEventos;
+    private javax.swing.JScrollPane scrollEventos;
     // End of variables declaration//GEN-END:variables
 }
