@@ -131,7 +131,6 @@ public class ListarDia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-<<<<<<< Updated upstream
         diaAtual = new javax.swing.JLabel();
         Fechar = new javax.swing.JButton();
         scrollEventos = new javax.swing.JScrollPane();
@@ -139,49 +138,18 @@ public class ListarDia extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-=======
-        eventosScroll = new javax.swing.JScrollPane();
-        eventosPanel = new javax.swing.JPanel();
-        diaAtual = new javax.swing.JLabel();
-        fechar = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        eventosScroll.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        eventosScroll.setMinimumSize(new java.awt.Dimension(100, 100));
-
-        eventosPanel.setMinimumSize(new java.awt.Dimension(100, 100));
-        eventosPanel.setName(""); // NOI18N
-        eventosPanel.setPreferredSize(new java.awt.Dimension(757, 486));
-
-        javax.swing.GroupLayout eventosPanelLayout = new javax.swing.GroupLayout(eventosPanel);
-        eventosPanel.setLayout(eventosPanelLayout);
-        eventosPanelLayout.setHorizontalGroup(
-            eventosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 761, Short.MAX_VALUE)
-        );
-        eventosPanelLayout.setVerticalGroup(
-            eventosPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
-        );
-
-        eventosScroll.setViewportView(eventosPanel);
-
-        getContentPane().add(eventosScroll, java.awt.BorderLayout.CENTER);
-
->>>>>>> Stashed changes
         diaAtual.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         diaAtual.setText("Dia");
         diaAtual.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(diaAtual, java.awt.BorderLayout.NORTH);
 
-        fechar.setText("Fechar");
-        fechar.addActionListener(new java.awt.event.ActionListener() {
+        Fechar.setText("Fechar");
+        Fechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fecharActionPerformed(evt);
+                FecharActionPerformed(evt);
             }
         });
-        getContentPane().add(fechar, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(Fechar, java.awt.BorderLayout.SOUTH);
 
         scrollEventos.setMinimumSize(new java.awt.Dimension(150, 350));
         scrollEventos.setPreferredSize(new java.awt.Dimension(1000, 350));
@@ -198,9 +166,9 @@ public class ListarDia extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fecharActionPerformed
+    private void FecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharActionPerformed
         ListarDia.this.dispose();
-    }//GEN-LAST:event_fecharActionPerformed
+    }//GEN-LAST:event_FecharActionPerformed
 
     /**
      * @param args the command line arguments
@@ -238,16 +206,9 @@ public class ListarDia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-<<<<<<< Updated upstream
     private javax.swing.JButton Fechar;
     private javax.swing.JLabel diaAtual;
     private javax.swing.JPanel listaEventos;
     private javax.swing.JScrollPane scrollEventos;
-=======
-    private javax.swing.JLabel diaAtual;
-    private javax.swing.JPanel eventosPanel;
-    private javax.swing.JScrollPane eventosScroll;
-    private javax.swing.JButton fechar;
->>>>>>> Stashed changes
     // End of variables declaration//GEN-END:variables
 }
