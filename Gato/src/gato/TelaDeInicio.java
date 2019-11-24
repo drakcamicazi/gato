@@ -1,40 +1,20 @@
 /*
- * Copyright (C) 2019 guscc
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package gato;
 
-import java.awt.Color;
-import java.awt.Label;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.JPanel;
-
 /**
  *
- * @author guscc
+ * @author Admin
  */
+public class TelaDeInicio extends javax.swing.JFrame {
 
-
-public class CalendarioCabub extends javax.swing.JFrame {
-    
     /**
-     * Creates new form CalendarioCabub
+     * Creates new form TelaDeInicio
      */
-    public CalendarioCabub() {
+    public TelaDeInicio() {
         initComponents();
     }
 
@@ -47,6 +27,7 @@ public class CalendarioCabub extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PainelCalendario = new javax.swing.JPanel();
         Dias = new javax.swing.JPanel();
         diaPanel11 = new javax.swing.JPanel();
         diaPanel12 = new javax.swing.JPanel();
@@ -102,8 +83,22 @@ public class CalendarioCabub extends javax.swing.JFrame {
         TextoMes = new javax.swing.JLabel();
         arrowL = new javax.swing.JButton();
         arrowR = new javax.swing.JButton();
+        InformacoesExtras = new javax.swing.JPanel();
+        PainelBotoes = new javax.swing.JPanel();
+        BotaoAddEventoSemanal = new javax.swing.JButton();
+        BotaoAddEvento = new javax.swing.JButton();
+        BotaoRemoveEvento = new javax.swing.JButton();
+        BotaoExpEscolares = new javax.swing.JButton();
+        BotaoExpFavo = new javax.swing.JButton();
+        PainelTabelas = new javax.swing.JPanel();
+        PainelRotina = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        PainelCalendario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PainelCalendario.setMinimumSize(new java.awt.Dimension(800, 800));
+        PainelCalendario.setPreferredSize(new java.awt.Dimension(800, 800));
+        PainelCalendario.setLayout(new java.awt.BorderLayout());
 
         Dias.setLayout(new java.awt.GridLayout(6, 7));
 
@@ -118,11 +113,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel11.setLayout(diaPanel11Layout);
         diaPanel11Layout.setHorizontalGroup(
             diaPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel11Layout.setVerticalGroup(
             diaPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel11);
@@ -138,11 +133,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel12.setLayout(diaPanel12Layout);
         diaPanel12Layout.setHorizontalGroup(
             diaPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel12Layout.setVerticalGroup(
             diaPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel12);
@@ -158,11 +153,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel13.setLayout(diaPanel13Layout);
         diaPanel13Layout.setHorizontalGroup(
             diaPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel13Layout.setVerticalGroup(
             diaPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel13);
@@ -178,11 +173,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel14.setLayout(diaPanel14Layout);
         diaPanel14Layout.setHorizontalGroup(
             diaPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel14Layout.setVerticalGroup(
             diaPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel14);
@@ -198,11 +193,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel15.setLayout(diaPanel15Layout);
         diaPanel15Layout.setHorizontalGroup(
             diaPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel15Layout.setVerticalGroup(
             diaPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel15);
@@ -218,11 +213,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel16.setLayout(diaPanel16Layout);
         diaPanel16Layout.setHorizontalGroup(
             diaPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel16Layout.setVerticalGroup(
             diaPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel16);
@@ -238,11 +233,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel17.setLayout(diaPanel17Layout);
         diaPanel17Layout.setHorizontalGroup(
             diaPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel17Layout.setVerticalGroup(
             diaPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel17);
@@ -258,11 +253,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel21.setLayout(diaPanel21Layout);
         diaPanel21Layout.setHorizontalGroup(
             diaPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel21Layout.setVerticalGroup(
             diaPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel21);
@@ -278,11 +273,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel22.setLayout(diaPanel22Layout);
         diaPanel22Layout.setHorizontalGroup(
             diaPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel22Layout.setVerticalGroup(
             diaPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel22);
@@ -298,11 +293,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel23.setLayout(diaPanel23Layout);
         diaPanel23Layout.setHorizontalGroup(
             diaPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel23Layout.setVerticalGroup(
             diaPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel23);
@@ -318,11 +313,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel24.setLayout(diaPanel24Layout);
         diaPanel24Layout.setHorizontalGroup(
             diaPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel24Layout.setVerticalGroup(
             diaPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel24);
@@ -338,11 +333,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel25.setLayout(diaPanel25Layout);
         diaPanel25Layout.setHorizontalGroup(
             diaPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel25Layout.setVerticalGroup(
             diaPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel25);
@@ -358,11 +353,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel26.setLayout(diaPanel26Layout);
         diaPanel26Layout.setHorizontalGroup(
             diaPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel26Layout.setVerticalGroup(
             diaPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel26);
@@ -378,11 +373,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel27.setLayout(diaPanel27Layout);
         diaPanel27Layout.setHorizontalGroup(
             diaPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel27Layout.setVerticalGroup(
             diaPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel27);
@@ -398,11 +393,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel31.setLayout(diaPanel31Layout);
         diaPanel31Layout.setHorizontalGroup(
             diaPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel31Layout.setVerticalGroup(
             diaPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel31);
@@ -418,11 +413,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel32.setLayout(diaPanel32Layout);
         diaPanel32Layout.setHorizontalGroup(
             diaPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel32Layout.setVerticalGroup(
             diaPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel32);
@@ -438,11 +433,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel33.setLayout(diaPanel33Layout);
         diaPanel33Layout.setHorizontalGroup(
             diaPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel33Layout.setVerticalGroup(
             diaPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel33);
@@ -458,11 +453,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel34.setLayout(diaPanel34Layout);
         diaPanel34Layout.setHorizontalGroup(
             diaPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel34Layout.setVerticalGroup(
             diaPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel34);
@@ -478,11 +473,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel35.setLayout(diaPanel35Layout);
         diaPanel35Layout.setHorizontalGroup(
             diaPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel35Layout.setVerticalGroup(
             diaPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel35);
@@ -498,11 +493,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel36.setLayout(diaPanel36Layout);
         diaPanel36Layout.setHorizontalGroup(
             diaPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel36Layout.setVerticalGroup(
             diaPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel36);
@@ -518,11 +513,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel37.setLayout(diaPanel37Layout);
         diaPanel37Layout.setHorizontalGroup(
             diaPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel37Layout.setVerticalGroup(
             diaPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel37);
@@ -538,11 +533,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel41.setLayout(diaPanel41Layout);
         diaPanel41Layout.setHorizontalGroup(
             diaPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel41Layout.setVerticalGroup(
             diaPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel41);
@@ -558,11 +553,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel42.setLayout(diaPanel42Layout);
         diaPanel42Layout.setHorizontalGroup(
             diaPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel42Layout.setVerticalGroup(
             diaPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel42);
@@ -578,11 +573,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel43.setLayout(diaPanel43Layout);
         diaPanel43Layout.setHorizontalGroup(
             diaPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel43Layout.setVerticalGroup(
             diaPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel43);
@@ -598,11 +593,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel44.setLayout(diaPanel44Layout);
         diaPanel44Layout.setHorizontalGroup(
             diaPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel44Layout.setVerticalGroup(
             diaPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel44);
@@ -618,11 +613,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel45.setLayout(diaPanel45Layout);
         diaPanel45Layout.setHorizontalGroup(
             diaPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel45Layout.setVerticalGroup(
             diaPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel45);
@@ -638,11 +633,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel46.setLayout(diaPanel46Layout);
         diaPanel46Layout.setHorizontalGroup(
             diaPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel46Layout.setVerticalGroup(
             diaPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel46);
@@ -658,11 +653,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel47.setLayout(diaPanel47Layout);
         diaPanel47Layout.setHorizontalGroup(
             diaPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel47Layout.setVerticalGroup(
             diaPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel47);
@@ -678,11 +673,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel51.setLayout(diaPanel51Layout);
         diaPanel51Layout.setHorizontalGroup(
             diaPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel51Layout.setVerticalGroup(
             diaPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel51);
@@ -698,11 +693,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel52.setLayout(diaPanel52Layout);
         diaPanel52Layout.setHorizontalGroup(
             diaPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel52Layout.setVerticalGroup(
             diaPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel52);
@@ -718,11 +713,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel53.setLayout(diaPanel53Layout);
         diaPanel53Layout.setHorizontalGroup(
             diaPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel53Layout.setVerticalGroup(
             diaPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel53);
@@ -738,11 +733,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel54.setLayout(diaPanel54Layout);
         diaPanel54Layout.setHorizontalGroup(
             diaPanel54Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel54Layout.setVerticalGroup(
             diaPanel54Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel54);
@@ -758,11 +753,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel55.setLayout(diaPanel55Layout);
         diaPanel55Layout.setHorizontalGroup(
             diaPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel55Layout.setVerticalGroup(
             diaPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel55);
@@ -778,11 +773,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel56.setLayout(diaPanel56Layout);
         diaPanel56Layout.setHorizontalGroup(
             diaPanel56Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel56Layout.setVerticalGroup(
             diaPanel56Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel56);
@@ -798,11 +793,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel57.setLayout(diaPanel57Layout);
         diaPanel57Layout.setHorizontalGroup(
             diaPanel57Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel57Layout.setVerticalGroup(
             diaPanel57Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel57);
@@ -818,11 +813,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel61.setLayout(diaPanel61Layout);
         diaPanel61Layout.setHorizontalGroup(
             diaPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel61Layout.setVerticalGroup(
             diaPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel61);
@@ -838,11 +833,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel62.setLayout(diaPanel62Layout);
         diaPanel62Layout.setHorizontalGroup(
             diaPanel62Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel62Layout.setVerticalGroup(
             diaPanel62Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel62);
@@ -858,11 +853,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel63.setLayout(diaPanel63Layout);
         diaPanel63Layout.setHorizontalGroup(
             diaPanel63Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel63Layout.setVerticalGroup(
             diaPanel63Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel63);
@@ -878,11 +873,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel64.setLayout(diaPanel64Layout);
         diaPanel64Layout.setHorizontalGroup(
             diaPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel64Layout.setVerticalGroup(
             diaPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel64);
@@ -898,11 +893,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel65.setLayout(diaPanel65Layout);
         diaPanel65Layout.setHorizontalGroup(
             diaPanel65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel65Layout.setVerticalGroup(
             diaPanel65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel65);
@@ -918,11 +913,11 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel66.setLayout(diaPanel66Layout);
         diaPanel66Layout.setHorizontalGroup(
             diaPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel66Layout.setVerticalGroup(
             diaPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel66);
@@ -938,22 +933,22 @@ public class CalendarioCabub extends javax.swing.JFrame {
         diaPanel67.setLayout(diaPanel67Layout);
         diaPanel67Layout.setHorizontalGroup(
             diaPanel67Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 133, Short.MAX_VALUE)
+            .addGap(0, 112, Short.MAX_VALUE)
         );
         diaPanel67Layout.setVerticalGroup(
             diaPanel67Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 126, Short.MAX_VALUE)
+            .addGap(0, 120, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel67);
 
-        getContentPane().add(Dias, java.awt.BorderLayout.CENTER);
+        PainelCalendario.add(Dias, java.awt.BorderLayout.CENTER);
 
         Titulo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Titulo.setLayout(new java.awt.BorderLayout());
 
         DiasSemana.setBackground(new java.awt.Color(150, 150, 150));
-        DiasSemana.setLayout(new java.awt.GridLayout(1, 0));
+        DiasSemana.setLayout(new java.awt.GridLayout());
 
         Domingo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Domingo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -1033,18 +1028,103 @@ public class CalendarioCabub extends javax.swing.JFrame {
         });
         Titulo.add(arrowR, java.awt.BorderLayout.LINE_END);
 
-        getContentPane().add(Titulo, java.awt.BorderLayout.PAGE_START);
+        PainelCalendario.add(Titulo, java.awt.BorderLayout.PAGE_START);
+
+        getContentPane().add(PainelCalendario, java.awt.BorderLayout.CENTER);
+
+        InformacoesExtras.setLayout(new java.awt.GridLayout(3, 0));
+
+        PainelBotoes.setLayout(new java.awt.GridLayout(5, 0));
+
+        BotaoAddEventoSemanal.setText("Adicionar Evento Semanal");
+        BotaoAddEventoSemanal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotaoAddEventoSemanalActionPerformed(evt);
+            }
+        });
+        PainelBotoes.add(BotaoAddEventoSemanal);
+
+        BotaoAddEvento.setText("Adicionar Evento");
+        BotaoAddEvento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotaoAddEventoActionPerformed(evt);
+            }
+        });
+        PainelBotoes.add(BotaoAddEvento);
+
+        BotaoRemoveEvento.setText("Remover Evento");
+        PainelBotoes.add(BotaoRemoveEvento);
+
+        BotaoExpEscolares.setText("Expandir Provas e Trabalhos");
+        BotaoExpEscolares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotaoExpEscolaresActionPerformed(evt);
+            }
+        });
+        PainelBotoes.add(BotaoExpEscolares);
+
+        BotaoExpFavo.setText("Expandir Favoritos");
+        BotaoExpFavo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotaoExpFavoActionPerformed(evt);
+            }
+        });
+        PainelBotoes.add(BotaoExpFavo);
+
+        InformacoesExtras.add(PainelBotoes);
+
+        PainelTabelas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout PainelTabelasLayout = new javax.swing.GroupLayout(PainelTabelas);
+        PainelTabelas.setLayout(PainelTabelasLayout);
+        PainelTabelasLayout.setHorizontalGroup(
+            PainelTabelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 388, Short.MAX_VALUE)
+        );
+        PainelTabelasLayout.setVerticalGroup(
+            PainelTabelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 264, Short.MAX_VALUE)
+        );
+
+        InformacoesExtras.add(PainelTabelas);
+
+        PainelRotina.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout PainelRotinaLayout = new javax.swing.GroupLayout(PainelRotina);
+        PainelRotina.setLayout(PainelRotinaLayout);
+        PainelRotinaLayout.setHorizontalGroup(
+            PainelRotinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 388, Short.MAX_VALUE)
+        );
+        PainelRotinaLayout.setVerticalGroup(
+            PainelRotinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 264, Short.MAX_VALUE)
+        );
+
+        InformacoesExtras.add(PainelRotina);
+
+        getContentPane().add(InformacoesExtras, java.awt.BorderLayout.EAST);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void arrowLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowLActionPerformed
+    private void BotaoExpEscolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpEscolaresActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_arrowLActionPerformed
+    }//GEN-LAST:event_BotaoExpEscolaresActionPerformed
 
-    private void arrowRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowRActionPerformed
+    private void BotaoAddEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_arrowRActionPerformed
+         new  AdicionarEvento().setVisible(true);
+    }//GEN-LAST:event_BotaoAddEventoActionPerformed
+
+    private void BotaoExpFavoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpFavoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotaoExpFavoActionPerformed
+
+    private void BotaoAddEventoSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoSemanalActionPerformed
+        // TODO add your handling code here:
+         new  AdicionarEventoSemanal().setVisible(true);
+    }//GEN-LAST:event_BotaoAddEventoSemanalActionPerformed
 
     private void diaPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel11MouseClicked
         Integer i = 11;
@@ -1256,6 +1336,14 @@ public class CalendarioCabub extends javax.swing.JFrame {
         new ListarDia(i).setVisible(true);
     }//GEN-LAST:event_diaPanel67MouseClicked
 
+    private void arrowLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowLActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_arrowLActionPerformed
+
+    private void arrowRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowRActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_arrowRActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1273,28 +1361,39 @@ public class CalendarioCabub extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CalendarioCabub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDeInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CalendarioCabub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDeInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CalendarioCabub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDeInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CalendarioCabub.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaDeInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CalendarioCabub().setVisible(true);
+                new TelaDeInicio().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotaoAddEvento;
+    private javax.swing.JButton BotaoAddEventoSemanal;
+    private javax.swing.JButton BotaoExpEscolares;
+    private javax.swing.JButton BotaoExpFavo;
+    private javax.swing.JButton BotaoRemoveEvento;
     private javax.swing.JPanel Dias;
     private javax.swing.JPanel DiasSemana;
     private javax.swing.JLabel Domingo;
+    private javax.swing.JPanel InformacoesExtras;
+    private javax.swing.JPanel PainelBotoes;
+    private javax.swing.JPanel PainelCalendario;
+    private javax.swing.JPanel PainelRotina;
+    private javax.swing.JPanel PainelTabelas;
     private javax.swing.JLabel Quarta;
     private javax.swing.JLabel Quinta;
     private javax.swing.JLabel Segunda;
