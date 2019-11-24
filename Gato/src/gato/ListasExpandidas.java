@@ -38,18 +38,78 @@ public class ListasExpandidas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        painelTabelas = new javax.swing.JPanel();
+        tabelaFavorito = new javax.swing.JPanel();
+        panelTitulo = new javax.swing.JPanel();
+        textTitulo = new javax.swing.JLabel();
+        scrollEventos = new javax.swing.JScrollPane();
+        listaEventosFav = new javax.swing.JPanel();
+        tabelaAtividades = new javax.swing.JPanel();
+        scrollEventos2 = new javax.swing.JScrollPane();
+        listaEventosAtiv = new javax.swing.JPanel();
+        panelTitulo2 = new javax.swing.JPanel();
+        textTitulo2 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        painelTabelas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        painelTabelas.setMinimumSize(new java.awt.Dimension(150, 150));
+        painelTabelas.setPreferredSize(new java.awt.Dimension(150, 150));
+        painelTabelas.setLayout(new java.awt.GridLayout());
+
+        tabelaFavorito.setPreferredSize(new java.awt.Dimension(150, 264));
+        tabelaFavorito.setLayout(new java.awt.BorderLayout());
+
+        panelTitulo.setLayout(new java.awt.BorderLayout());
+
+        textTitulo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        textTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        textTitulo.setText("Favoritos");
+        textTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        panelTitulo.add(textTitulo, java.awt.BorderLayout.CENTER);
+
+        tabelaFavorito.add(panelTitulo, java.awt.BorderLayout.NORTH);
+
+        scrollEventos.setMinimumSize(new java.awt.Dimension(150, 350));
+        scrollEventos.setPreferredSize(new java.awt.Dimension(150, 350));
+
+        listaEventosFav.setMaximumSize(new java.awt.Dimension(10000, 10000));
+        listaEventosFav.setMinimumSize(new java.awt.Dimension(100, 100));
+        listaEventosFav.setPreferredSize(new java.awt.Dimension(150, 800));
+        listaEventosFav.setLayout(new javax.swing.BoxLayout(listaEventosFav, javax.swing.BoxLayout.PAGE_AXIS));
+        scrollEventos.setViewportView(listaEventosFav);
+
+        tabelaFavorito.add(scrollEventos, java.awt.BorderLayout.CENTER);
+
+        painelTabelas.add(tabelaFavorito);
+
+        tabelaAtividades.setMinimumSize(new java.awt.Dimension(150, 394));
+        tabelaAtividades.setLayout(new java.awt.BorderLayout());
+
+        scrollEventos2.setMinimumSize(new java.awt.Dimension(150, 350));
+        scrollEventos2.setPreferredSize(new java.awt.Dimension(150, 350));
+
+        listaEventosAtiv.setMaximumSize(new java.awt.Dimension(10000, 10000));
+        listaEventosAtiv.setMinimumSize(new java.awt.Dimension(100, 100));
+        listaEventosAtiv.setPreferredSize(new java.awt.Dimension(150, 800));
+        listaEventosAtiv.setLayout(new javax.swing.BoxLayout(listaEventosAtiv, javax.swing.BoxLayout.PAGE_AXIS));
+        scrollEventos2.setViewportView(listaEventosAtiv);
+
+        tabelaAtividades.add(scrollEventos2, java.awt.BorderLayout.CENTER);
+
+        panelTitulo2.setLayout(new java.awt.BorderLayout());
+
+        textTitulo2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        textTitulo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        textTitulo2.setText("Atividades");
+        textTitulo2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        panelTitulo2.add(textTitulo2, java.awt.BorderLayout.CENTER);
+
+        tabelaAtividades.add(panelTitulo2, java.awt.BorderLayout.NORTH);
+
+        painelTabelas.add(tabelaAtividades);
+
+        getContentPane().add(painelTabelas, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -90,5 +150,16 @@ public class ListasExpandidas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel listaEventosAtiv;
+    private javax.swing.JPanel listaEventosFav;
+    private javax.swing.JPanel painelTabelas;
+    private javax.swing.JPanel panelTitulo;
+    private javax.swing.JPanel panelTitulo2;
+    private javax.swing.JScrollPane scrollEventos;
+    private javax.swing.JScrollPane scrollEventos2;
+    private javax.swing.JPanel tabelaAtividades;
+    private javax.swing.JPanel tabelaFavorito;
+    private javax.swing.JLabel textTitulo;
+    private javax.swing.JLabel textTitulo2;
     // End of variables declaration//GEN-END:variables
 }
