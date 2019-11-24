@@ -50,7 +50,7 @@ public class DeletarSemanal extends javax.swing.JFrame {
 
                 JOptionPane.showMessageDialog(null, "Evento " + cod + " deletado com sucesso!");
             } catch (HeadlessException | SQLException excp) {
-                JOptionPane.showMessageDialog(null, "Erro ao salvar.");
+                JOptionPane.showMessageDialog(null, "Erro ao deletar.");
                 System.err.println(excp);
             }
 

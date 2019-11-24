@@ -37,7 +37,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         hoje = LocalDateTime.now();
         mesExibido = hoje.getMonth().getValue();
         anoExibido = hoje.getYear();
-        //preencherCalendario(mesExibido, anoExibido);
+        preencherCalendario(mesExibido, anoExibido);
+        preencherListaEventosFav();
+        preencherListaEventosAtiv();
     }
     
     private void preencherCalendario(int mes, int ano){
@@ -94,8 +96,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void habilitarDia(int x, int y){        
         getPanel(x, y).setBackground(new Color(214, 217, 223));//cores default
         getPanel(x, y).addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                abrirListarDia(1, 1, 2019);
+            public void mouseClicked(java.awt.event.MouseEvent evt) {                
             }
         });
     }
@@ -134,6 +135,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
             System.err.println(excp);
         }
+        getPanel(x, y).removeMouseListener(getPanel(x, y).getMouseListeners()[0]);
+        getPanel(x, y).addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abrirListarDia(dia, mesExibido, anoExibido);
+            }
+        });
     }
     
     private void limparCalendario() {
@@ -147,9 +154,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
     
-    private void abrirListarDia(int dia, int mes, int ano){
-        //TODO chamar janela
-        System.out.println("Chamou abrirListarDia");
+    private void abrirListarDia(Integer dia, Integer mes, Integer ano){
+        new ListarDia(dia, mes, ano).setVisible(true);
     }
     
     private String nomeDoMes(int mes){
@@ -1328,240 +1334,241 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void preencherListaEventosFav(String[] eventos)
+    private void preencherListaEventosFav()
     {
-        JLabel labelEvento;
-        for(int i = 0; i < eventos.length; i++)
-        {
-            labelEvento = new JLabel(eventos[i]);
-            labelEvento.setFont(labelEvento.getFont().deriveFont (16.0f));
-            listaEventosFav.add(labelEvento);
-            labelEvento = new JLabel("\n");
-            listaEventosFav.add(labelEvento);
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm;
+        ResultSet rs;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            pstm = conexao.prepareStatement("select titulo from evento where dia > DATE(NOW()) and favorito = 1 order by hora_inicio asc");
+
+            pstm.execute();
+            rs = pstm.getResultSet();
+
+            while (rs.next()) {
+                JLabel l = new JLabel(rs.getString("titulo"));
+                l.setFont(l.getFont().deriveFont(16.0f));
+                listaEventosFav.add(l);
+            }
+            pstm.close();
+            conexao.close();
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
+            System.err.println(excp);
+        }
+        
+        
+        JLabel labelEvento;
     }
         
-    private void preencherListaEventosAtiv(String[] eventos)
+    private void preencherListaEventosAtiv()
     {
         JLabel labelEvento;
-        for(int i = 0; i < eventos.length; i++)
-        {
-            labelEvento = new JLabel(eventos[i]);
-            labelEvento.setFont(labelEvento.getFont().deriveFont (16.0f));
-            listaEventosAtiv.add(labelEvento);
-            labelEvento = new JLabel("\n");
-            listaEventosAtiv.add(labelEvento);
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm;
+        ResultSet rs;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            pstm = conexao.prepareStatement("select titulo from evento where dia > DATE(NOW()) and atividade = 1 order by hora_inicio asc");
+
+            pstm.execute();
+            rs = pstm.getResultSet();
+
+            while (rs.next()) {
+                JLabel l = new JLabel(rs.getString("titulo"));
+                l.setFont(l.getFont().deriveFont(16.0f));
+                listaEventosFav.add(l);
+            }
+            pstm.close();
+            conexao.close();
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
+            System.err.println(excp);
+        }
+        
+        
     }    
     
     private void diaPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel11MouseClicked
-        Integer i = 11;
-        new ListarDia(i).setVisible(true);
     }//GEN-LAST:event_diaPanel11MouseClicked
 
     private void diaPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel12MouseClicked
-        Integer i = 12;
-        new ListarDia(i).setVisible(true);
+
     }//GEN-LAST:event_diaPanel12MouseClicked
 
     private void diaPanel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel13MouseClicked
-        Integer i = 13;
-        new ListarDia(i).setVisible(true);
+
     }//GEN-LAST:event_diaPanel13MouseClicked
 
     private void diaPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel14MouseClicked
-        Integer i = 14;
-        new ListarDia(i).setVisible(true);
+       
     }//GEN-LAST:event_diaPanel14MouseClicked
 
     private void diaPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel15MouseClicked
-        Integer i = 15;
-        new ListarDia(i).setVisible(true);
+       
     }//GEN-LAST:event_diaPanel15MouseClicked
 
     private void diaPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel16MouseClicked
-        Integer i = 16;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel16MouseClicked
 
     private void diaPanel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel17MouseClicked
-        Integer i = 17;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel17MouseClicked
 
     private void diaPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel21MouseClicked
-        Integer i = 21;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel21MouseClicked
 
     private void diaPanel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel22MouseClicked
-        Integer i = 22;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel22MouseClicked
 
     private void diaPanel23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel23MouseClicked
-        Integer i = 23;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel23MouseClicked
 
     private void diaPanel24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel24MouseClicked
-        Integer i = 24;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel24MouseClicked
 
     private void diaPanel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel25MouseClicked
-        Integer i = 25;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel25MouseClicked
 
     private void diaPanel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel26MouseClicked
-        Integer i = 26;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel26MouseClicked
 
     private void diaPanel27MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel27MouseClicked
-        Integer i = 27;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel27MouseClicked
 
     private void diaPanel31MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel31MouseClicked
-        Integer i = 31;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel31MouseClicked
 
     private void diaPanel32MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel32MouseClicked
-        Integer i = 32;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel32MouseClicked
 
     private void diaPanel33MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel33MouseClicked
-        Integer i = 33;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel33MouseClicked
 
     private void diaPanel34MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel34MouseClicked
-        Integer i = 34;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel34MouseClicked
 
     private void diaPanel35MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel35MouseClicked
-        Integer i = 35;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel35MouseClicked
 
     private void diaPanel36MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel36MouseClicked
-        Integer i = 36;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel36MouseClicked
 
     private void diaPanel37MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel37MouseClicked
-        Integer i = 37;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel37MouseClicked
 
     private void diaPanel41MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel41MouseClicked
-        Integer i = 41;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel41MouseClicked
 
     private void diaPanel42MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel42MouseClicked
-        Integer i = 42;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel42MouseClicked
 
     private void diaPanel43MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel43MouseClicked
-        Integer i = 43;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel43MouseClicked
 
     private void diaPanel44MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel44MouseClicked
-        Integer i = 44;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel44MouseClicked
 
     private void diaPanel45MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel45MouseClicked
-        Integer i = 45;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel45MouseClicked
 
     private void diaPanel46MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel46MouseClicked
-        Integer i = 46;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel46MouseClicked
 
     private void diaPanel47MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel47MouseClicked
-        Integer i = 47;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel47MouseClicked
 
     private void diaPanel51MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel51MouseClicked
-        Integer i = 51;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel51MouseClicked
 
     private void diaPanel52MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel52MouseClicked
-        Integer i = 52;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel52MouseClicked
 
     private void diaPanel53MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel53MouseClicked
-        Integer i = 53;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel53MouseClicked
 
     private void diaPanel54MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel54MouseClicked
-        Integer i = 54;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel54MouseClicked
 
     private void diaPanel55MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel55MouseClicked
-        Integer i = 55;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel55MouseClicked
 
     private void diaPanel56MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel56MouseClicked
-        Integer i = 56;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel56MouseClicked
 
     private void diaPanel57MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel57MouseClicked
-        Integer i = 57;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel57MouseClicked
 
     private void diaPanel61MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel61MouseClicked
-        Integer i = 61;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel61MouseClicked
 
     private void diaPanel62MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel62MouseClicked
-        Integer i = 62;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel62MouseClicked
 
     private void diaPanel63MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel63MouseClicked
-        Integer i = 63;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel63MouseClicked
 
     private void diaPanel64MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel64MouseClicked
-        Integer i = 64;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel64MouseClicked
 
     private void diaPanel65MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel65MouseClicked
-        Integer i = 65;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel65MouseClicked
 
     private void diaPanel66MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel66MouseClicked
-        Integer i = 66;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel66MouseClicked
 
     private void diaPanel67MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel67MouseClicked
-        Integer i = 67;
-        new ListarDia(i).setVisible(true);
+        
     }//GEN-LAST:event_diaPanel67MouseClicked
 
     private void arrowLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowLActionPerformed
