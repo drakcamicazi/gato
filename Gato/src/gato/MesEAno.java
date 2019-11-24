@@ -1,4 +1,4 @@
-package sistemaparatelas;
+package gato;
 
 public class MesEAno {
     private final int mes;
