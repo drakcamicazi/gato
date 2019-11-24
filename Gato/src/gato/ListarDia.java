@@ -47,7 +47,9 @@ public class ListarDia extends javax.swing.JFrame {
         this.mes = mes;
         this.dia = dia;
         diaAtual.setText("   Data: " +dia + "/" + mes + "/" + ano);
-        listaEventos.add(new JLabel("Clique em um evento se desejar apagar.\n\n"));
+        JLabel j = new JLabel(" Clique em um evento se desejar apagar.\n\n");
+        listaEventos.add(j);
+        j.setFont(j.getFont().deriveFont (18.0f));
         preencherListaEventos();
     }
     
