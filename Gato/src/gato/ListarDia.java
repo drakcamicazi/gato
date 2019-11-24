@@ -37,6 +37,9 @@ public class ListarDia extends javax.swing.JFrame {
 
     /**
      * Creates new form ListarDia
+     * @param dia
+     * @param mes
+     * @param ano
      */
     public ListarDia(Integer dia, Integer mes, Integer ano) {
         initComponents();
@@ -44,6 +47,7 @@ public class ListarDia extends javax.swing.JFrame {
         this.mes = mes;
         this.dia = dia;
         diaAtual.setText("   Data: " +dia + "/" + mes + "/" + ano);
+        listaEventos.add(new JLabel("Clique em um evento se desejar apagar.\n\n"));
         preencherListaEventos();
     }
     
@@ -144,10 +148,8 @@ public class ListarDia extends javax.swing.JFrame {
         getContentPane().add(diaAtual, java.awt.BorderLayout.NORTH);
 
         Fechar.setText("Fechar");
-        Fechar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FecharActionPerformed(evt);
-            }
+        Fechar.addActionListener((java.awt.event.ActionEvent evt) -> {
+            FecharActionPerformed(evt);
         });
         getContentPane().add(Fechar, java.awt.BorderLayout.SOUTH);
 
@@ -186,22 +188,16 @@ public class ListarDia extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListarDia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListarDia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListarDia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ListarDia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ListarDia(23, 11, 2019).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ListarDia(23, 11, 2019).setVisible(true);
         });
     }
 
