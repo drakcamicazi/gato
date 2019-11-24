@@ -90,6 +90,7 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Evento Semanal");
@@ -148,7 +149,7 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(446, 223, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 240, -1, -1));
 
         jButton2.setText("Avançar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +157,7 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(448, 296, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(448, 296, 100, -1));
 
         jLabel8.setText(":");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 268, -1, -1));
@@ -166,6 +167,14 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
 
         jLabel10.setText("Dia da semana");
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
+
+        jButton3.setText("Apagar Evento");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -195,6 +204,10 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         salvar();        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,6 +241,7 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
