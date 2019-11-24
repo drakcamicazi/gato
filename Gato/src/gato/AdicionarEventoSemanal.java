@@ -196,7 +196,8 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotaoAvancarActionPerformed
 
     private void BotaoApagarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoApagarEventoActionPerformed
-        // TODO add your handling code here:
+        DeletarSemanal ds = new DeletarSemanal();
+        ds.setVisible(true);
     }//GEN-LAST:event_BotaoApagarEventoActionPerformed
 
     private void BoxMinDeFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoxMinDeFimActionPerformed

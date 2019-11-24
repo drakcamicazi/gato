@@ -1,4 +1,4 @@
-package Telas;
+package gato;
 
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
@@ -35,7 +35,7 @@ public class DeletarSemanal extends javax.swing.JFrame {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             try {
@@ -69,7 +69,7 @@ public class DeletarSemanal extends javax.swing.JFrame {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
