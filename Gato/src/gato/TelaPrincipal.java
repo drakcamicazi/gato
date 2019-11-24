@@ -1348,7 +1348,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         try {
             conexao = DriverManager.getConnection(url, usuario, senha);
-            pstm = conexao.prepareStatement("select titulo from evento where dia > DATE(NOW()) and favorito = 1 order by hora_inicio asc");
+            pstm = conexao.prepareStatement("select titulo from evento where dia > DATE(NOW()) and favorito = 1 order by dia asc, hora_inicio asc");
 
             pstm.execute();
             rs = pstm.getResultSet();
@@ -1384,7 +1384,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         try {
             conexao = DriverManager.getConnection(url, usuario, senha);
-            pstm = conexao.prepareStatement("select titulo from evento where dia > DATE(NOW()) and atividade = 1 order by hora_inicio asc");
+            pstm = conexao.prepareStatement("select titulo from evento where dia > DATE(NOW()) and atividade = 1 order by dia asc, hora_inicio asc");
 
             pstm.execute();
             rs = pstm.getResultSet();
@@ -1392,7 +1392,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             while (rs.next()) {
                 JLabel l = new JLabel(rs.getString("titulo"));
                 l.setFont(l.getFont().deriveFont(16.0f));
-                listaEventosFav.add(l);
+                listaEventosAtiv.add(l);
             }
             pstm.close();
             conexao.close();
