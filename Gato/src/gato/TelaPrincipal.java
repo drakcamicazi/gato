@@ -37,7 +37,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         hoje = LocalDateTime.now();
         mesExibido = hoje.getMonth().getValue();
         anoExibido = hoje.getYear();
-        preencherCalendario(mesExibido, anoExibido);
+        //preencherCalendario(mesExibido, anoExibido);
     }
     
     private void preencherCalendario(int mes, int ano){
@@ -257,6 +257,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
         BotaoExpEscolares = new javax.swing.JButton();
         BotaoExpFavo = new javax.swing.JButton();
         PainelTabelas = new javax.swing.JPanel();
+        tabelaFavorito = new javax.swing.JPanel();
+        panelTitulo = new javax.swing.JPanel();
+        textTitulo = new javax.swing.JLabel();
+        scrollEventos = new javax.swing.JScrollPane();
+        listaEventosFav = new javax.swing.JPanel();
+        tabelaAtividades = new javax.swing.JPanel();
+        scrollEventos2 = new javax.swing.JScrollPane();
+        listaEventosAtiv = new javax.swing.JPanel();
+        panelTitulo2 = new javax.swing.JPanel();
+        textTitulo2 = new javax.swing.JLabel();
         PainelRotina = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -279,7 +289,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel11.setLayout(diaPanel11Layout);
         diaPanel11Layout.setHorizontalGroup(
             diaPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel11Layout.setVerticalGroup(
             diaPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,7 +309,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel12.setLayout(diaPanel12Layout);
         diaPanel12Layout.setHorizontalGroup(
             diaPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel12Layout.setVerticalGroup(
             diaPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,7 +329,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel13.setLayout(diaPanel13Layout);
         diaPanel13Layout.setHorizontalGroup(
             diaPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel13Layout.setVerticalGroup(
             diaPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,7 +349,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel14.setLayout(diaPanel14Layout);
         diaPanel14Layout.setHorizontalGroup(
             diaPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel14Layout.setVerticalGroup(
             diaPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,7 +369,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel15.setLayout(diaPanel15Layout);
         diaPanel15Layout.setHorizontalGroup(
             diaPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel15Layout.setVerticalGroup(
             diaPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +389,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel16.setLayout(diaPanel16Layout);
         diaPanel16Layout.setHorizontalGroup(
             diaPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel16Layout.setVerticalGroup(
             diaPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,7 +409,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel17.setLayout(diaPanel17Layout);
         diaPanel17Layout.setHorizontalGroup(
             diaPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel17Layout.setVerticalGroup(
             diaPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,7 +429,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel21.setLayout(diaPanel21Layout);
         diaPanel21Layout.setHorizontalGroup(
             diaPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel21Layout.setVerticalGroup(
             diaPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,7 +449,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel22.setLayout(diaPanel22Layout);
         diaPanel22Layout.setHorizontalGroup(
             diaPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel22Layout.setVerticalGroup(
             diaPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -459,7 +469,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel23.setLayout(diaPanel23Layout);
         diaPanel23Layout.setHorizontalGroup(
             diaPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel23Layout.setVerticalGroup(
             diaPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -479,7 +489,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel24.setLayout(diaPanel24Layout);
         diaPanel24Layout.setHorizontalGroup(
             diaPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel24Layout.setVerticalGroup(
             diaPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,7 +509,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel25.setLayout(diaPanel25Layout);
         diaPanel25Layout.setHorizontalGroup(
             diaPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel25Layout.setVerticalGroup(
             diaPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -519,7 +529,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel26.setLayout(diaPanel26Layout);
         diaPanel26Layout.setHorizontalGroup(
             diaPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel26Layout.setVerticalGroup(
             diaPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,7 +549,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel27.setLayout(diaPanel27Layout);
         diaPanel27Layout.setHorizontalGroup(
             diaPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel27Layout.setVerticalGroup(
             diaPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -559,7 +569,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel31.setLayout(diaPanel31Layout);
         diaPanel31Layout.setHorizontalGroup(
             diaPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel31Layout.setVerticalGroup(
             diaPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -579,7 +589,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel32.setLayout(diaPanel32Layout);
         diaPanel32Layout.setHorizontalGroup(
             diaPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel32Layout.setVerticalGroup(
             diaPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -599,7 +609,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel33.setLayout(diaPanel33Layout);
         diaPanel33Layout.setHorizontalGroup(
             diaPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel33Layout.setVerticalGroup(
             diaPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -619,7 +629,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel34.setLayout(diaPanel34Layout);
         diaPanel34Layout.setHorizontalGroup(
             diaPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel34Layout.setVerticalGroup(
             diaPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -639,7 +649,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel35.setLayout(diaPanel35Layout);
         diaPanel35Layout.setHorizontalGroup(
             diaPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel35Layout.setVerticalGroup(
             diaPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,7 +669,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel36.setLayout(diaPanel36Layout);
         diaPanel36Layout.setHorizontalGroup(
             diaPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel36Layout.setVerticalGroup(
             diaPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -679,7 +689,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel37.setLayout(diaPanel37Layout);
         diaPanel37Layout.setHorizontalGroup(
             diaPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel37Layout.setVerticalGroup(
             diaPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -699,7 +709,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel41.setLayout(diaPanel41Layout);
         diaPanel41Layout.setHorizontalGroup(
             diaPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel41Layout.setVerticalGroup(
             diaPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -719,7 +729,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel42.setLayout(diaPanel42Layout);
         diaPanel42Layout.setHorizontalGroup(
             diaPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel42Layout.setVerticalGroup(
             diaPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -739,7 +749,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel43.setLayout(diaPanel43Layout);
         diaPanel43Layout.setHorizontalGroup(
             diaPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel43Layout.setVerticalGroup(
             diaPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -759,7 +769,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel44.setLayout(diaPanel44Layout);
         diaPanel44Layout.setHorizontalGroup(
             diaPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel44Layout.setVerticalGroup(
             diaPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -779,7 +789,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel45.setLayout(diaPanel45Layout);
         diaPanel45Layout.setHorizontalGroup(
             diaPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel45Layout.setVerticalGroup(
             diaPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -799,7 +809,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel46.setLayout(diaPanel46Layout);
         diaPanel46Layout.setHorizontalGroup(
             diaPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel46Layout.setVerticalGroup(
             diaPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -819,7 +829,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel47.setLayout(diaPanel47Layout);
         diaPanel47Layout.setHorizontalGroup(
             diaPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel47Layout.setVerticalGroup(
             diaPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -839,7 +849,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel51.setLayout(diaPanel51Layout);
         diaPanel51Layout.setHorizontalGroup(
             diaPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel51Layout.setVerticalGroup(
             diaPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -859,7 +869,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel52.setLayout(diaPanel52Layout);
         diaPanel52Layout.setHorizontalGroup(
             diaPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel52Layout.setVerticalGroup(
             diaPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -879,7 +889,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel53.setLayout(diaPanel53Layout);
         diaPanel53Layout.setHorizontalGroup(
             diaPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel53Layout.setVerticalGroup(
             diaPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -899,7 +909,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel54.setLayout(diaPanel54Layout);
         diaPanel54Layout.setHorizontalGroup(
             diaPanel54Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel54Layout.setVerticalGroup(
             diaPanel54Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -919,7 +929,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel55.setLayout(diaPanel55Layout);
         diaPanel55Layout.setHorizontalGroup(
             diaPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel55Layout.setVerticalGroup(
             diaPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -939,7 +949,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel56.setLayout(diaPanel56Layout);
         diaPanel56Layout.setHorizontalGroup(
             diaPanel56Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel56Layout.setVerticalGroup(
             diaPanel56Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -959,7 +969,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel57.setLayout(diaPanel57Layout);
         diaPanel57Layout.setHorizontalGroup(
             diaPanel57Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel57Layout.setVerticalGroup(
             diaPanel57Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -979,7 +989,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel61.setLayout(diaPanel61Layout);
         diaPanel61Layout.setHorizontalGroup(
             diaPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel61Layout.setVerticalGroup(
             diaPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -999,7 +1009,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel62.setLayout(diaPanel62Layout);
         diaPanel62Layout.setHorizontalGroup(
             diaPanel62Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel62Layout.setVerticalGroup(
             diaPanel62Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1019,7 +1029,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel63.setLayout(diaPanel63Layout);
         diaPanel63Layout.setHorizontalGroup(
             diaPanel63Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel63Layout.setVerticalGroup(
             diaPanel63Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1039,7 +1049,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel64.setLayout(diaPanel64Layout);
         diaPanel64Layout.setHorizontalGroup(
             diaPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel64Layout.setVerticalGroup(
             diaPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1059,7 +1069,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel65.setLayout(diaPanel65Layout);
         diaPanel65Layout.setHorizontalGroup(
             diaPanel65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel65Layout.setVerticalGroup(
             diaPanel65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1079,7 +1089,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel66.setLayout(diaPanel66Layout);
         diaPanel66Layout.setHorizontalGroup(
             diaPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel66Layout.setVerticalGroup(
             diaPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1099,7 +1109,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         diaPanel67.setLayout(diaPanel67Layout);
         diaPanel67Layout.setHorizontalGroup(
             diaPanel67Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 102, Short.MAX_VALUE)
         );
         diaPanel67Layout.setVerticalGroup(
             diaPanel67Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1240,17 +1250,61 @@ public class TelaPrincipal extends javax.swing.JFrame {
         InformacoesExtras.add(PainelBotoes);
 
         PainelTabelas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PainelTabelas.setMinimumSize(new java.awt.Dimension(150, 150));
+        PainelTabelas.setPreferredSize(new java.awt.Dimension(150, 150));
+        PainelTabelas.setLayout(new java.awt.GridLayout());
 
-        javax.swing.GroupLayout PainelTabelasLayout = new javax.swing.GroupLayout(PainelTabelas);
-        PainelTabelas.setLayout(PainelTabelasLayout);
-        PainelTabelasLayout.setHorizontalGroup(
-            PainelTabelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
-        );
-        PainelTabelasLayout.setVerticalGroup(
-            PainelTabelasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 264, Short.MAX_VALUE)
-        );
+        tabelaFavorito.setPreferredSize(new java.awt.Dimension(150, 264));
+        tabelaFavorito.setLayout(new java.awt.BorderLayout());
+
+        panelTitulo.setLayout(new java.awt.BorderLayout());
+
+        textTitulo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        textTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        textTitulo.setText("Favoritos");
+        textTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        panelTitulo.add(textTitulo, java.awt.BorderLayout.CENTER);
+
+        tabelaFavorito.add(panelTitulo, java.awt.BorderLayout.NORTH);
+
+        scrollEventos.setMinimumSize(new java.awt.Dimension(150, 350));
+        scrollEventos.setPreferredSize(new java.awt.Dimension(150, 350));
+
+        listaEventosFav.setMaximumSize(new java.awt.Dimension(10000, 10000));
+        listaEventosFav.setMinimumSize(new java.awt.Dimension(100, 100));
+        listaEventosFav.setPreferredSize(new java.awt.Dimension(150, 800));
+        listaEventosFav.setLayout(new javax.swing.BoxLayout(listaEventosFav, javax.swing.BoxLayout.PAGE_AXIS));
+        scrollEventos.setViewportView(listaEventosFav);
+
+        tabelaFavorito.add(scrollEventos, java.awt.BorderLayout.CENTER);
+
+        PainelTabelas.add(tabelaFavorito);
+
+        tabelaAtividades.setMinimumSize(new java.awt.Dimension(150, 394));
+        tabelaAtividades.setLayout(new java.awt.BorderLayout());
+
+        scrollEventos2.setMinimumSize(new java.awt.Dimension(150, 350));
+        scrollEventos2.setPreferredSize(new java.awt.Dimension(150, 350));
+
+        listaEventosAtiv.setMaximumSize(new java.awt.Dimension(10000, 10000));
+        listaEventosAtiv.setMinimumSize(new java.awt.Dimension(100, 100));
+        listaEventosAtiv.setPreferredSize(new java.awt.Dimension(150, 800));
+        listaEventosAtiv.setLayout(new javax.swing.BoxLayout(listaEventosAtiv, javax.swing.BoxLayout.PAGE_AXIS));
+        scrollEventos2.setViewportView(listaEventosAtiv);
+
+        tabelaAtividades.add(scrollEventos2, java.awt.BorderLayout.CENTER);
+
+        panelTitulo2.setLayout(new java.awt.BorderLayout());
+
+        textTitulo2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        textTitulo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        textTitulo2.setText("Atividades");
+        textTitulo2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        panelTitulo2.add(textTitulo2, java.awt.BorderLayout.CENTER);
+
+        tabelaAtividades.add(panelTitulo2, java.awt.BorderLayout.NORTH);
+
+        PainelTabelas.add(tabelaAtividades);
 
         InformacoesExtras.add(PainelTabelas);
 
@@ -1260,7 +1314,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         PainelRotina.setLayout(PainelRotinaLayout);
         PainelRotinaLayout.setHorizontalGroup(
             PainelRotinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGap(0, 443, Short.MAX_VALUE)
         );
         PainelRotinaLayout.setVerticalGroup(
             PainelRotinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1274,22 +1328,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BotaoExpEscolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpEscolaresActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotaoExpEscolaresActionPerformed
-
-    private void BotaoAddEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoActionPerformed
-         new  AdicionarEvento().setVisible(true);
-    }//GEN-LAST:event_BotaoAddEventoActionPerformed
-
-    private void BotaoExpFavoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpFavoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BotaoExpFavoActionPerformed
-
-    private void BotaoAddEventoSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoSemanalActionPerformed
-         new  AdicionarEventoSemanal().setVisible(true);
-    }//GEN-LAST:event_BotaoAddEventoSemanalActionPerformed
-
+    private void preencherListaEventosFav(String[] eventos)
+    {
+        JLabel labelEvento;
+        for(int i = 0; i < eventos.length; i++)
+        {
+            labelEvento = new JLabel(eventos[i]);
+            labelEvento.setFont(labelEvento.getFont().deriveFont (16.0f));
+            listaEventosFav.add(labelEvento);
+            labelEvento = new JLabel("\n");
+            listaEventosFav.add(labelEvento);
+        }
+    }
+        
+    private void preencherListaEventosAtiv(String[] eventos)
+    {
+        JLabel labelEvento;
+        for(int i = 0; i < eventos.length; i++)
+        {
+            labelEvento = new JLabel(eventos[i]);
+            labelEvento.setFont(labelEvento.getFont().deriveFont (16.0f));
+            listaEventosAtiv.add(labelEvento);
+            labelEvento = new JLabel("\n");
+            listaEventosAtiv.add(labelEvento);
+        }
+    }    
+    
     private void diaPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel11MouseClicked
         Integer i = 11;
         new ListarDia(i).setVisible(true);
@@ -1524,6 +1588,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
         preencherCalendario(mesExibido, anoExibido);
     }//GEN-LAST:event_arrowRActionPerformed
 
+    private void BotaoAddEventoSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoSemanalActionPerformed
+        // TODO add your handling code here:
+        new  AdicionarEventoSemanal().setVisible(true);
+    }//GEN-LAST:event_BotaoAddEventoSemanalActionPerformed
+
+    private void BotaoAddEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoActionPerformed
+        // TODO add your handling code here:
+        new  AdicionarEvento().setVisible(true);
+    }//GEN-LAST:event_BotaoAddEventoActionPerformed
+
+    private void BotaoExpEscolaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpEscolaresActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotaoExpEscolaresActionPerformed
+
+    private void BotaoExpFavoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpFavoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotaoExpFavoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1628,6 +1710,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel diaPanel65;
     private javax.swing.JPanel diaPanel66;
     private javax.swing.JPanel diaPanel67;
+    private javax.swing.JPanel listaEventosAtiv;
+    private javax.swing.JPanel listaEventosFav;
+    private javax.swing.JPanel panelTitulo;
+    private javax.swing.JPanel panelTitulo2;
+    private javax.swing.JScrollPane scrollEventos;
+    private javax.swing.JScrollPane scrollEventos2;
+    private javax.swing.JPanel tabelaAtividades;
+    private javax.swing.JPanel tabelaFavorito;
+    private javax.swing.JLabel textTitulo;
+    private javax.swing.JLabel textTitulo2;
     // End of variables declaration//GEN-END:variables
 
     private JPanel getPanel(Integer linha, Integer col){
