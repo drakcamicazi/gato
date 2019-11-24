@@ -25,15 +25,29 @@ create table Evento_Semanal (
     primary key (pk_evento_semanal)
 );
 
-insert into Evento values(null, 'Trabalho de POO', '19-11-23', '10:00', '12:00', 'fodeu galere', 1, 0, 0);
-insert into Evento_Semanal values(null, 'Álgebra Linear', 'Segunda', '08:00', '10:00');
-insert into Evento_Semanal values(null, 'Cálculo I', 'Quinta', '08:00', '10:00');
-insert into Evento_Semanal values(null, 'IC2', 'Segunda', '10:00', '12:00');
+insert into Evento values(null, 'Trabalho de POO', '19-11-23', '10:00', '12:00', 'Data maxima de entrega', 1, 0, 0);
+insert into Evento values(null, 'Partida de Futebol', '19-11-24', '22:00', '23:00', 'Jogo ao vivo', 1, 0, 0);
+insert into Evento values(null, 'Viagem de Formatura', '19-12-06', '00:00', '23:00', 'Partiu Praia', 0, 1, 0);
+insert into Evento values(null, 'Viagem de Formatura', '19-12-07', '00:00', '23:00', 'Partiu Praia', 0, 1, 0);
+insert into Evento values(null, 'Viagem de Formatura', '19-12-08', '00:00', '23:00', 'Partiu Praia', 0, 1, 0);
+insert into Evento values(null, 'Evento de Computacao', '19-11-29', '12:00', '17:00', 'Conferencia da Microsoft', 1, 0, 0);
+insert into Evento values(null, 'Compra de Natal', '19-12-20', '15:00', '20:00', 'Presentes para a familia', 1, 0, 0);
+insert into Evento values(null, 'Jantar na Casa da Sogra', '20-01-14', '18:00', '21:00', 'Dona Maria convidou para um jantar', 1, 0, 0);
+insert into Evento values(null, 'Comprar Ovos de Pascoa', '20-04-10', '15:00', '20:00', 'Comprar ovos de pascoa pra familia', 1, 0, 0);
+insert into Evento values(null, 'Aniversario Sara', '19-08-10', '12:00', '15:00', 'Aniversario da BFF', 1, 0, 1);
+insert into Evento values(null, 'Torneio de Tenis', '18-11-17', '16:00', '20:00', 'Torneio Amador de Tenis', 1, 0, 0);
+insert into Evento values(null, 'ENEM', '19-11-03', '08:00', '12:00', 'Prova', 1, 0, 1);
+insert into Evento values(null, 'ENEM', '19-11-10', '08:00', '12:00', 'Prova', 1, 0, 1);
+
+insert into Evento_Semanal values(null, 'Natação', 'Segunda', '08:00', '10:00');
+insert into Evento_Semanal values(null, 'Inglês', 'Quinta', '16:00', '18:00');
+insert into Evento_Semanal values(null, 'IC2', 'Terça', '10:00', '12:00');
 insert into Evento_Semanal values(null, 'Cálculo I', 'Quarta', '10:00', '12:00');
 insert into Evento_Semanal values(null, 'OCD', 'Quarta', '08:00', '10:00');
 insert into Evento_Semanal values(null, 'Grupo de Estudos', 'Sábado', '08:00', '10:00');
-insert into Evento_Semanal values(null, 'Linguagens e Paradigmas', 'Sexta', '08:00', '10:00');
-select * from Evento_Semanal order by dia_semana asc, hora_inicio asc; 	
+insert into Evento_Semanal values(null, 'Almoco na Vó', 'Domingo', '10:00', '14:00');
+
+select * from evento;
 
 #insert into Evento values(null, 'Feriado x', '19-11-23', '00:00', '23:00', 'Feriado Oficial', 0, 1, 0);
 
