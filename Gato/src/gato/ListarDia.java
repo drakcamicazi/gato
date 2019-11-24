@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_OPTION;
+import javax.swing.JPanel;
 
 /**
  *
@@ -34,7 +35,7 @@ import static javax.swing.JOptionPane.YES_OPTION;
  */
 public class ListarDia extends javax.swing.JFrame {
     Integer ano, dia, mes;
-
+    
     /**
      * Creates new form ListarDia
      * @param dia
@@ -47,9 +48,6 @@ public class ListarDia extends javax.swing.JFrame {
         this.mes = mes;
         this.dia = dia;
         diaAtual.setText("   Data: " +dia + "/" + mes + "/" + ano);
-        JLabel j = new JLabel(" Clique em um evento se desejar apagar.\n\n");
-        listaEventos.add(j);
-        j.setFont(j.getFont().deriveFont (18.0f));
         preencherListaEventos();
     }
     
@@ -75,15 +73,20 @@ public class ListarDia extends javax.swing.JFrame {
 
             while (rs.next()) {
                 int cod = rs.getInt("pk_evento");
-                JLabel l = new JLabel(cod +". "+ rs.getString("hora_inicio") + " - "+rs.getString("hora_fim") + ": " + rs.getString("titulo") +", "+ rs.getString("descricao"));
-                l.setFont(l.getFont().deriveFont (16.0f));
-                l.addMouseListener(new java.awt.event.MouseAdapter() {
+                
+                JLabel l1 = new JLabel("(" + cod + ") "+rs.getString("titulo") + ", das " +rs.getString("hora_inicio") + " às " + rs.getString("hora_fim"));
+                l1.setFont(l1.getFont().deriveFont(18.0f));
+                JLabel l2 = new JLabel("    "+rs.getString("descricao"));
+                l2.setFont(l2.getFont().deriveFont(14.0f));
+                
+                l1.addMouseListener(new java.awt.event.MouseAdapter() {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
                         deletar(cod);
                     }
                 });
-                listaEventos.add(l);                
+                listaEventos.add(l1);   
+                listaEventos.add(l2);                
             }
             pstm.close();
             conexao.close();
@@ -94,9 +97,9 @@ public class ListarDia extends javax.swing.JFrame {
     }    
     
     private void deletar(int cod) {
-        int n = JOptionPane.showConfirmDialog(null, "Deseja mesmo deletar o evento " + cod + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo deletar o evento " + cod + "?", "Confirmação", JOptionPane.YES_NO_OPTION);
 
-        if (n == YES_OPTION) {
+        if (op == YES_OPTION) {
             String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
             Connection conexao;
             PreparedStatement pstm;
@@ -138,16 +141,24 @@ public class ListarDia extends javax.swing.JFrame {
     private void initComponents() {
 
         diaAtual = new javax.swing.JLabel();
+        infoDeletar = new JLabel("Clique em um evento se desejar apagá-lo.");
         Fechar = new javax.swing.JButton();
         scrollEventos = new javax.swing.JScrollPane();
         listaEventos = new javax.swing.JPanel();
+        divisorTitulos = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        diaAtual.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        
+        divisorTitulos.setLayout(new java.awt.GridLayout(1, 2));
+        diaAtual.setFont(new java.awt.Font("Tahoma", 0, 24));
+        infoDeletar.setFont(new java.awt.Font("Tahoma", 0, 20)); 
         diaAtual.setText("Dia");
         diaAtual.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        getContentPane().add(diaAtual, java.awt.BorderLayout.NORTH);
+        
+        divisorTitulos.add(diaAtual);
+        divisorTitulos.add(infoDeletar);
+        
+        getContentPane().add(divisorTitulos, java.awt.BorderLayout.NORTH);
 
         Fechar.setText("Fechar");
         Fechar.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -208,5 +219,8 @@ public class ListarDia extends javax.swing.JFrame {
     private javax.swing.JLabel diaAtual;
     private javax.swing.JPanel listaEventos;
     private javax.swing.JScrollPane scrollEventos;
+    private JPanel divisorTitulos;
+    private JLabel infoDeletar;
+
     // End of variables declaration//GEN-END:variables
 }

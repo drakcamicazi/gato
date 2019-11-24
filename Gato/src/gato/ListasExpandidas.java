@@ -16,6 +16,17 @@
  */
 package gato;
 
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author guscc
@@ -27,6 +38,62 @@ public class ListasExpandidas extends javax.swing.JFrame {
      */
     public ListasExpandidas() {
         initComponents();
+        preencherListas();
+    }
+    
+    private void preencherListas()
+    {
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm;
+        ResultSet rs;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            pstm = conexao.prepareStatement("select titulo, dia, hora_inicio, hora_fim, descricao from evento where dia > DATE(NOW()) and favorito = 1 order by dia asc, hora_inicio asc");
+
+            pstm.execute();
+            rs = pstm.getResultSet();
+
+            while (rs.next()) {
+                JLabel l1 = new JLabel(rs.getString("titulo") + ", das " +rs.getString("hora_inicio") + " às " + rs.getString("hora_fim"));
+                l1.setFont(l1.getFont().deriveFont(18.0f));
+                JLabel l2 = new JLabel("    "+rs.getString("descricao"));
+                l2.setFont(l2.getFont().deriveFont(14.0f));
+                
+                listaEventosFav.add(l1);
+                listaEventosFav.add(l2);
+            }
+            pstm.close();
+            
+            pstm = conexao.prepareStatement("select titulo, dia, hora_inicio, hora_fim, descricao from evento where dia > DATE(NOW()) and atividade = 1 order by dia asc, hora_inicio asc");
+
+            pstm.execute();
+            rs = pstm.getResultSet();
+
+            while (rs.next()) {
+                JLabel l1 = new JLabel(rs.getString("titulo") + ", das " +rs.getString("hora_inicio") + " às " + rs.getString("hora_fim"));
+                l1.setFont(l1.getFont().deriveFont(18.0f));
+                JLabel l2 = new JLabel("    "+rs.getString("descricao"));
+                l2.setFont(l2.getFont().deriveFont(14.0f));
+                
+                listaEventosAtiv.add(l1);
+                listaEventosAtiv.add(l2);
+            }
+            pstm.close();
+            
+            
+            
+            conexao.close();
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
+            System.err.println(excp);
+        }
     }
 
     /**
@@ -50,12 +117,14 @@ public class ListasExpandidas extends javax.swing.JFrame {
         panelTitulo2 = new javax.swing.JPanel();
         textTitulo2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Favoritos e Atividades");
+        setPreferredSize(new java.awt.Dimension(1200, 600));
 
         painelTabelas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         painelTabelas.setMinimumSize(new java.awt.Dimension(150, 150));
         painelTabelas.setPreferredSize(new java.awt.Dimension(150, 150));
-        painelTabelas.setLayout(new java.awt.GridLayout());
+        painelTabelas.setLayout(new java.awt.GridLayout(1, 0));
 
         tabelaFavorito.setPreferredSize(new java.awt.Dimension(150, 264));
         tabelaFavorito.setLayout(new java.awt.BorderLayout());

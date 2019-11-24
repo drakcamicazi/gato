@@ -93,6 +93,7 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Evento Semanal");
         setPreferredSize(new java.awt.Dimension(640, 400));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         getContentPane().add(textTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 38, 567, 27));
 

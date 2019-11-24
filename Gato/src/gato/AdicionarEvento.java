@@ -135,6 +135,7 @@ private void salvar(){
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Evento");
         setPreferredSize(new java.awt.Dimension(640, 400));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         botaoAvancar.setText("Avançar");
