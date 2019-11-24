@@ -121,6 +121,8 @@ public class CalendarioRotina extends javax.swing.JFrame {
                           break;
             case "24:00": hora = 24;
                           break;
+            case "": hora = -2;
+                     break;
             default: hora = -1;
                      break;
         } 
@@ -225,17 +227,19 @@ public class CalendarioRotina extends javax.swing.JFrame {
                     if( codigoHoras[j][i] != -1 ){
                         if(duracao[j][i] > 1){
                             for(k = 0; k < duracao[j][i]; k++){
-                                model.setValueAt(infos[j][i], j + k, i);
+                                model.setValueAt(infos[j][i], codigoHoras[j][i] + k, i);
                             }
                             j = j + k;
 
                         }else{
                             if(duracao[j][i] == 1){
-                                model.setValueAt(infos[j][i], j, i);
+                                model.setValueAt(infos[j][i], codigoHoras[j][i], i);
                             }
                         }
                     }else{
-                        model.setValueAt("", j, i);
+                        if( codigoHoras[j][i] != -2 && codigoHoras[j][i] == - 1){
+                            model.setValueAt("", j, i);
+                        }
                     }
                 }
             }

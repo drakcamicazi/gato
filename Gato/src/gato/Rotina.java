@@ -87,17 +87,17 @@ public class Rotina {
         //o mesmo é válido para os outros parametros da classe (duracao, infos e horarios), somente quantidade de eventos que
         // precisa apenas do codigo do dia da semana.
         
-        duracao[12][4] = 3;
-        duracao[11][6] = 4;
+        duracao[7][4] = 3;
+        duracao[2][6] = 4;
         
-        infos[12][4] = "Almoco";
-        infos[11][6] = "Aula de LPP";
+        infos[7][4] = "Almoco";
+        infos[2][6] = "Aula de LPP";
         
         quantidade_eventos[4] = 1;
         quantidade_eventos[6] = 1;
         
-        horarios[12][4] = "12:00";
-        horarios[11][6] = "11:00";
+        horarios[7][4] = "12:00";
+        horarios[2][6] = "11:00";
         
         cr = new CalendarioRotina();
         cr.setDuracao(duracao);
