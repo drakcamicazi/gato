@@ -87,14 +87,14 @@ public class DeletarSemanal extends javax.swing.JFrame {
                         deletar(cod);
                     }
                 });
-                jPanel1.add(l);
+                pnListaEventos.add(l);
             }
         } catch (HeadlessException | SQLException excp) {
             JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
             System.err.println(excp);
         }
 
-        jPanel1.setLayout(new GridLayout(tam, 1));
+        pnListaEventos.setLayout(new GridLayout(tam, 1));
 
     }
 
@@ -107,43 +107,40 @@ public class DeletarSemanal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane(jPanel1);
-        jPanel1.setSize(jScrollPane1.getWidth(), jScrollPane1.getHeight());
+        pnListaEventos = new javax.swing.JPanel();
+        lbInfo = new javax.swing.JLabel();
+        btFechar = new javax.swing.JButton();
+        scroll = new javax.swing.JScrollPane(pnListaEventos);
+        pnListaEventos.setSize(scroll.getWidth(), scroll.getHeight());
 
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Deletar Evento Semanal");
         setPreferredSize(new java.awt.Dimension(800, 600));
         getContentPane().setLayout(new java.awt.BorderLayout(40, 10));
 
-        jLabel11.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Clique em um evento semanal para deletar:");
-        getContentPane().add(jLabel11, java.awt.BorderLayout.PAGE_START);
+        lbInfo.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        lbInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbInfo.setText("Clique em um evento semanal para deletar:");
+        getContentPane().add(lbInfo, java.awt.BorderLayout.PAGE_START);
 
-        jButton2.setText("Fechar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btFechar.setText("Fechar");
+        btFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btFecharActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, java.awt.BorderLayout.PAGE_END);
+        getContentPane().add(btFechar, java.awt.BorderLayout.PAGE_END);
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(500, 700));
-        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        scroll.setMinimumSize(new java.awt.Dimension(500, 700));
+        getContentPane().add(scroll, java.awt.BorderLayout.CENTER);
 
         getAccessibleContext().setAccessibleName("Deletar Evento Semanal");
 
         pack();
     }// </editor-fold>                          
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void btFecharActionPerformed(java.awt.event.ActionEvent evt) {
         DeletarSemanal.this.dispose();
         // TODO add your handling code here:
     }
@@ -182,10 +179,9 @@ public class DeletarSemanal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton btFechar;
+    private javax.swing.JLabel lbInfo;
+    private javax.swing.JPanel pnListaEventos;
+    private javax.swing.JScrollPane scroll;
     // End of variables declaration                   
 }
