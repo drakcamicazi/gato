@@ -22,7 +22,10 @@ public class MesEAno {
         H = Math.floor(30.6001 * (C + 1));
         I = F + G + H + 1 + 5;
         R = (int) I % 7;
-        return R;
+        if(R == 0)
+            return 7;
+        else
+            return R;
     }
     
     public int QuantidadeDeDias(){
