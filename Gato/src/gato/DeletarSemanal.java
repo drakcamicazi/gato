@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.YES_OPTION;
@@ -65,7 +66,6 @@ public class DeletarSemanal extends javax.swing.JFrame {
         Connection conexao;
         Statement stm;
         ResultSet rs;
-        int tam = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
@@ -75,12 +75,12 @@ public class DeletarSemanal extends javax.swing.JFrame {
         try {
             conexao = DriverManager.getConnection(url, usuario, senha);
             stm = conexao.createStatement();
-            rs = stm.executeQuery("select pk_evento_semanal, titulo, dia_semana, hora_inicio from evento_semanal order by dia_semana asc, hora_inicio asc");
+            rs = stm.executeQuery("select pk_evento_semanal, titulo, dia_semana, hora_inicio, hora_fim from evento_semanal order by dia_semana asc, hora_inicio asc");
 
             while (rs.next()) {
-                tam++;
                 int cod = rs.getInt("pk_evento_semanal");
-                JLabel l = new JLabel(cod + "- " + rs.getString("titulo") + ": " + rs.getString("dia_semana") + ", " + rs.getString("hora_inicio"));
+                JLabel l = new JLabel(cod + "- " + rs.getString("titulo") + ": " + rs.getString("dia_semana") + ", " + rs.getString("hora_inicio") +" - "+ rs.getString("hora_fim"));
+                l.setFont(l.getFont().deriveFont(18.0f));
                 l.addMouseListener(new java.awt.event.MouseAdapter() {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -95,8 +95,6 @@ public class DeletarSemanal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
             System.err.println(excp);
         }
-
-        pnListaEventos.setLayout(new GridLayout(tam, 1));
 
     }
 
@@ -114,6 +112,8 @@ public class DeletarSemanal extends javax.swing.JFrame {
         btFechar = new javax.swing.JButton();
         scroll = new javax.swing.JScrollPane(pnListaEventos);
         pnListaEventos.setSize(scroll.getWidth(), scroll.getHeight());
+
+        pnListaEventos.setLayout(new BoxLayout(pnListaEventos,  javax.swing.BoxLayout.PAGE_AXIS));
 
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);

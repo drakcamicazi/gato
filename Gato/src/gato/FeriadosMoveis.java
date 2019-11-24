@@ -182,13 +182,5 @@ public class FeriadosMoveis {
             mes++;
        
         return mes;  
-   }
-   
-    public static void main(String[] args)
-    {
-        System.out.println(FeriadosMoveis.diaCorpusChrist(1893));
-    }
- 
-    
-    
+   }    
 }
