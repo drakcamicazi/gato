@@ -1,6 +1,5 @@
 package gato;
 
-import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -144,7 +143,6 @@ public class DeletarSemanal extends javax.swing.JFrame {
 
     private void btFecharActionPerformed(java.awt.event.ActionEvent evt) {
         DeletarSemanal.this.dispose();
-        // TODO add your handling code here:
     }
 
     /**

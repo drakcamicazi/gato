@@ -22,6 +22,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -37,6 +38,7 @@ public class ListasExpandidas extends javax.swing.JFrame {
      * Creates new form ListasExpandidas
      */
     public ListasExpandidas() {
+        this.setExtendedState(this.getExtendedState() | ListasExpandidas.MAXIMIZED_BOTH);
         initComponents();
         preencherListas();
     }
@@ -61,7 +63,7 @@ public class ListasExpandidas extends javax.swing.JFrame {
             rs = pstm.getResultSet();
 
             while (rs.next()) {
-                JLabel l1 = new JLabel(rs.getString("titulo") + ", das " +rs.getString("hora_inicio") + " às " + rs.getString("hora_fim"));
+                JLabel l1 = new JLabel(rs.getDate("dia").toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/uuuu")) +": "+ rs.getString("titulo") + ", das " +rs.getString("hora_inicio") + " às " + rs.getString("hora_fim"));
                 l1.setFont(l1.getFont().deriveFont(18.0f));
                 JLabel l2 = new JLabel("    "+rs.getString("descricao"));
                 l2.setFont(l2.getFont().deriveFont(14.0f));
@@ -77,7 +79,7 @@ public class ListasExpandidas extends javax.swing.JFrame {
             rs = pstm.getResultSet();
 
             while (rs.next()) {
-                JLabel l1 = new JLabel(rs.getString("titulo") + ", das " +rs.getString("hora_inicio") + " às " + rs.getString("hora_fim"));
+                JLabel l1 = new JLabel(rs.getDate("dia").toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/uuuu")) +": "+ rs.getString("titulo") + ", das " +rs.getString("hora_inicio") + " às " + rs.getString("hora_fim"));
                 l1.setFont(l1.getFont().deriveFont(18.0f));
                 JLabel l2 = new JLabel("    "+rs.getString("descricao"));
                 l2.setFont(l2.getFont().deriveFont(14.0f));

@@ -193,10 +193,12 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
      * Gatilho do botão Avançar para chamar a função salvar()
      */
     private void botaoAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAvancarActionPerformed
-        salvar();        
+        salvar();  
+        AdicionarEventoSemanal.this.dispose(); 
     }//GEN-LAST:event_botaoAvancarActionPerformed
 
     private void botaoApagarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoApagarEventoActionPerformed
+        AdicionarEventoSemanal.this.dispose(); 
         DeletarSemanal ds = new DeletarSemanal();
         ds.setVisible(true);
     }//GEN-LAST:event_botaoApagarEventoActionPerformed
