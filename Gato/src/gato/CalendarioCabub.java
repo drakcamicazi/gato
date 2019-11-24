@@ -100,8 +100,8 @@ public class CalendarioCabub extends javax.swing.JFrame {
         Sexta = new javax.swing.JLabel();
         Sábado = new javax.swing.JLabel();
         TextoMes = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        arrowL = new javax.swing.JButton();
+        arrowR = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1008,43 +1008,43 @@ public class CalendarioCabub extends javax.swing.JFrame {
 
         TextoMes.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         TextoMes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        TextoMes.setText("Mes");
+        TextoMes.setText("Mês");
         Titulo.add(TextoMes, java.awt.BorderLayout.CENTER);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
-        jButton1.setText(" ← ");
-        jButton1.setBorder(null);
-        jButton1.setOpaque(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        arrowL.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
+        arrowL.setText(" ← ");
+        arrowL.setBorder(null);
+        arrowL.setOpaque(false);
+        arrowL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                arrowLActionPerformed(evt);
             }
         });
-        Titulo.add(jButton1, java.awt.BorderLayout.WEST);
+        Titulo.add(arrowL, java.awt.BorderLayout.WEST);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
-        jButton2.setText(" → ");
-        jButton2.setBorder(null);
-        jButton2.setOpaque(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        arrowR.setFont(new java.awt.Font("Tahoma", 0, 28)); // NOI18N
+        arrowR.setText(" → ");
+        arrowR.setBorder(null);
+        arrowR.setOpaque(false);
+        arrowR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                arrowRActionPerformed(evt);
             }
         });
-        Titulo.add(jButton2, java.awt.BorderLayout.LINE_END);
+        Titulo.add(arrowR, java.awt.BorderLayout.LINE_END);
 
         getContentPane().add(Titulo, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void arrowLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowLActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_arrowLActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void arrowRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowRActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_arrowRActionPerformed
 
     private void diaPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel11MouseClicked
         Integer i = 11;
@@ -1303,6 +1303,8 @@ public class CalendarioCabub extends javax.swing.JFrame {
     private javax.swing.JLabel Terça;
     private javax.swing.JLabel TextoMes;
     private javax.swing.JPanel Titulo;
+    private javax.swing.JButton arrowL;
+    private javax.swing.JButton arrowR;
     private javax.swing.JPanel diaPanel11;
     private javax.swing.JPanel diaPanel12;
     private javax.swing.JPanel diaPanel13;
@@ -1345,7 +1347,5 @@ public class CalendarioCabub extends javax.swing.JFrame {
     private javax.swing.JPanel diaPanel65;
     private javax.swing.JPanel diaPanel66;
     private javax.swing.JPanel diaPanel67;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     // End of variables declaration//GEN-END:variables
 }
