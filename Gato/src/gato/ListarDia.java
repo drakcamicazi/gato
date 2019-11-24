@@ -44,7 +44,7 @@ public class ListarDia extends javax.swing.JFrame {
         diaAtual = new javax.swing.JLabel();
         Fechar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         EventosScroll.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         EventosScroll.setMinimumSize(new java.awt.Dimension(100, 100));
@@ -85,7 +85,7 @@ public class ListarDia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void FecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharActionPerformed
-        System.exit(0);
+        ListarDia.this.dispose();
     }//GEN-LAST:event_FecharActionPerformed
 
     /**
