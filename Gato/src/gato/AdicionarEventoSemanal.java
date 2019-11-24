@@ -38,12 +38,12 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
         }
         
         String titulo, horaIni, horaFin, minIni, minFin, diaSemana;
-        titulo = jTextField1.getText();
-        diaSemana = jComboBox1.getSelectedItem().toString();
-        horaIni = jComboBox4.getSelectedItem().toString();
-        minIni = jComboBox5.getSelectedItem().toString();
-        horaFin = jComboBox6.getSelectedItem().toString();
-        minFin = jComboBox7.getSelectedItem().toString();
+        titulo = TextTitulo.getText();
+        diaSemana = BoxDiaDaSemana.getSelectedItem().toString();
+        horaIni = BoxHoraDeInicio.getSelectedItem().toString();
+        minIni = BoxMinDeInicio.getSelectedItem().toString();
+        horaFin = BoxHoraDeFim.getSelectedItem().toString();
+        minFin = BoxMinDeFim.getSelectedItem().toString();
         
         try {
             conexao = DriverManager.getConnection(url, usuario, senha);
@@ -74,107 +74,101 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jComboBox7 = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        TextTitulo = new javax.swing.JTextField();
+        LabelTitulo = new javax.swing.JLabel();
+        BoxDiaDaSemana = new javax.swing.JComboBox<>();
+        BoxHoraDeInicio = new javax.swing.JComboBox<>();
+        BoxMinDeInicio = new javax.swing.JComboBox<>();
+        BoxHoraDeFim = new javax.swing.JComboBox<>();
+        BoxMinDeFim = new javax.swing.JComboBox<>();
+        LabelHorarioDeInicio = new javax.swing.JLabel();
+        LabelHorarioDeFim = new javax.swing.JLabel();
+        BotaoCancelar = new javax.swing.JButton();
+        BotaoAvancar = new javax.swing.JButton();
+        Label2PontosHI = new javax.swing.JLabel();
+        Label2PontosHF = new javax.swing.JLabel();
+        LabelDiaDaSemana = new javax.swing.JLabel();
+        BotaoApagarEvento = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Evento Semanal");
+        setPreferredSize(new java.awt.Dimension(640, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 38, 567, 27));
+        getContentPane().add(TextTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 38, 567, 27));
 
-        jTextField2.setEditable(false);
-        jTextField2.setText("Não tem descrição aqui. Por favor me elimine.");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        LabelTitulo.setText("Título");
+        getContentPane().add(LabelTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 18, -1, -1));
+
+        BoxDiaDaSemana.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" }));
+        getContentPane().add(BoxDiaDaSemana, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 140, -1));
+
+        BoxHoraDeInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        getContentPane().add(BoxHoraDeInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 58, -1));
+
+        BoxMinDeInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00" }));
+        BoxMinDeInicio.setEnabled(false);
+        BoxMinDeInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                BoxMinDeInicioActionPerformed(evt);
             }
         });
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 91, 567, 27));
+        getContentPane().add(BoxMinDeInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, 60, -1));
 
-        jLabel1.setText("Título");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 18, -1, -1));
-
-        jLabel2.setText("Descrição");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 71, -1, -1));
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 140, -1));
-
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        getContentPane().add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 264, 58, -1));
-
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" }));
-        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+        BoxHoraDeFim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        BoxHoraDeFim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox5ActionPerformed(evt);
+                BoxHoraDeFimActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 264, 60, -1));
+        getContentPane().add(BoxHoraDeFim, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 58, -1));
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
+        BoxMinDeFim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00" }));
+        BoxMinDeFim.setEnabled(false);
+        BoxMinDeFim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox6ActionPerformed(evt);
+                BoxMinDeFimActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox6, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 349, 58, -1));
+        getContentPane().add(BoxMinDeFim, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 60, -1));
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" }));
-        getContentPane().add(jComboBox7, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 349, 60, -1));
+        LabelHorarioDeInicio.setText("Horário de inicio");
+        getContentPane().add(LabelHorarioDeInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
 
-        jLabel4.setText("Horário de inicio");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, -1));
+        LabelHorarioDeFim.setText("Horário de fim");
+        getContentPane().add(LabelHorarioDeFim, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, -1, -1));
 
-        jLabel5.setText("Horário de fim");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, -1, -1));
-
-        jButton1.setText("Cancelar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BotaoCancelar.setText("Cancelar");
+        BotaoCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BotaoCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 240, -1, -1));
+        getContentPane().add(BotaoCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, -1, -1));
 
-        jButton2.setText("Avançar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        BotaoAvancar.setText("Avançar");
+        BotaoAvancar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                BotaoAvancarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(448, 296, 100, -1));
+        getContentPane().add(BotaoAvancar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 240, 100, -1));
 
-        jLabel8.setText(":");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 268, -1, -1));
+        Label2PontosHI.setText(":");
+        getContentPane().add(Label2PontosHI, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, -1, -1));
 
-        jLabel9.setText(":");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(104, 353, -1, -1));
+        Label2PontosHF.setText(":");
+        getContentPane().add(Label2PontosHF, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 280, -1, -1));
 
-        jLabel10.setText("Dia da semana");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
+        LabelDiaDaSemana.setText("Dia da semana");
+        getContentPane().add(LabelDiaDaSemana, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
-        jButton3.setText("Apagar Evento");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        BotaoApagarEvento.setText("Apagar Evento");
+        BotaoApagarEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                BotaoApagarEventoActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
+        getContentPane().add(BotaoApagarEvento, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -182,32 +176,32 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
     /** 
      * Fechar apenas a janela atual
      */
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BotaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoCancelarActionPerformed
         AdicionarEventoSemanal.this.dispose(); 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BotaoCancelarActionPerformed
 
-    private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
+    private void BoxHoraDeFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoxHoraDeFimActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox6ActionPerformed
+    }//GEN-LAST:event_BoxHoraDeFimActionPerformed
 
-    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
+    private void BoxMinDeInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoxMinDeInicioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox5ActionPerformed
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_BoxMinDeInicioActionPerformed
 
     /** 
      * Gatilho do botão Avançar para chamar a função salvar()
      */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void BotaoAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAvancarActionPerformed
         salvar();        
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_BotaoAvancarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void BotaoApagarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoApagarEventoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_BotaoApagarEventoActionPerformed
+
+    private void BoxMinDeFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoxMinDeFimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BoxMinDeFimActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,22 +234,20 @@ public class AdicionarEventoSemanal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton BotaoApagarEvento;
+    private javax.swing.JButton BotaoAvancar;
+    private javax.swing.JButton BotaoCancelar;
+    private javax.swing.JComboBox<String> BoxDiaDaSemana;
+    private javax.swing.JComboBox<String> BoxHoraDeFim;
+    private javax.swing.JComboBox<String> BoxHoraDeInicio;
+    private javax.swing.JComboBox<String> BoxMinDeFim;
+    private javax.swing.JComboBox<String> BoxMinDeInicio;
+    private javax.swing.JLabel Label2PontosHF;
+    private javax.swing.JLabel Label2PontosHI;
+    private javax.swing.JLabel LabelDiaDaSemana;
+    private javax.swing.JLabel LabelHorarioDeFim;
+    private javax.swing.JLabel LabelHorarioDeInicio;
+    private javax.swing.JLabel LabelTitulo;
+    private javax.swing.JTextField TextTitulo;
     // End of variables declaration//GEN-END:variables
 }

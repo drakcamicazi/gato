@@ -40,24 +40,24 @@ private void salvar(){
         int favorito, escolar, feriado;
         titulo = jTextField1.getText();
         descricao = jTextField2.getText();
-        ano = jComboBox1.getSelectedItem().toString();
-        mes = jComboBox6.getSelectedItem().toString();
-        dia = jComboBox7.getSelectedItem().toString();
-        horaIni = jComboBox2.getSelectedItem().toString();
-        minIni = jComboBox4.getSelectedItem().toString();
-        horaFin = jComboBox3.getSelectedItem().toString();
-        minFin = jComboBox5.getSelectedItem().toString();
-        if (jRadioButton1.isSelected())
+        ano = BoxAnoData.getSelectedItem().toString();
+        mes = BoxMesData.getSelectedItem().toString();
+        dia = BoxDiaData.getSelectedItem().toString();
+        horaIni = BoxHoraInicio.getSelectedItem().toString();
+        minIni = BoxMinInicio.getSelectedItem().toString();
+        horaFin = BoxHoraFim.getSelectedItem().toString();
+        minFin = BoxMinFim.getSelectedItem().toString();
+        if (BotaoBooleanoFavoito.isSelected())
             favorito = 1;
         else
             favorito = 0;
         
-        if (jRadioButton2.isSelected())
+        if (BotaoBooleanoEscolar.isSelected())
             escolar = 1;
         else
             escolar = 0;
         
-        if (jRadioButton3.isSelected())
+        if (BotaoBooleanoFeriado.isSelected())
             feriado = 1;
         else
             feriado = 0;
@@ -97,30 +97,30 @@ private void salvar(){
 
         jButton1 = new javax.swing.JButton();
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        BotaoAvancar = new javax.swing.JButton();
+        BotaoCancelar = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jComboBox7 = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        LabelTitulo = new javax.swing.JLabel();
+        LabelDescricao = new javax.swing.JLabel();
+        BoxAnoData = new javax.swing.JComboBox<>();
+        BoxHoraInicio = new javax.swing.JComboBox<>();
+        BoxHoraFim = new javax.swing.JComboBox<>();
+        LabelData = new javax.swing.JLabel();
+        LabelHorarioDeInicio = new javax.swing.JLabel();
+        LabelHorarioDeFim = new javax.swing.JLabel();
+        BoxMinInicio = new javax.swing.JComboBox<>();
+        BoxMinFim = new javax.swing.JComboBox<>();
+        Label2PontosHI = new javax.swing.JLabel();
+        Label2PontosHF = new javax.swing.JLabel();
+        BoxMesData = new javax.swing.JComboBox<>();
+        BoxDiaData = new javax.swing.JComboBox<>();
+        LabelMarcarEvento = new javax.swing.JLabel();
+        BotaoBooleanoFavoito = new javax.swing.JRadioButton();
+        BotaoBooleanoEscolar = new javax.swing.JRadioButton();
+        BotaoBooleanoFeriado = new javax.swing.JRadioButton();
+        LabelBarraData1 = new javax.swing.JLabel();
+        LabelBarraData2 = new javax.swing.JLabel();
 
         jButton1.setText("avançar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -134,23 +134,24 @@ private void salvar(){
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Evento");
+        setPreferredSize(new java.awt.Dimension(640, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton2.setText("Avançar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        BotaoAvancar.setText("Avançar");
+        BotaoAvancar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                BotaoAvancarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(533, 321, -1, -1));
+        getContentPane().add(BotaoAvancar, new org.netbeans.lib.awtextra.AbsoluteConstraints(533, 321, -1, -1));
 
-        jButton3.setText("Cancelar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        BotaoCancelar.setText("Cancelar");
+        BotaoCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                BotaoCancelarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 321, -1, -1));
+        getContentPane().add(BotaoCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(391, 321, -1, -1));
 
         jTextField1.setToolTipText("informe o nome do evento");
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 35, 567, 27));
@@ -164,77 +165,77 @@ private void salvar(){
         });
         getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 89, 567, 27));
 
-        jLabel1.setText("Título");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 15, -1, -1));
+        LabelTitulo.setText("Título");
+        getContentPane().add(LabelTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 15, -1, -1));
 
-        jLabel2.setText("Descrição");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 68, -1, 15));
+        LabelDescricao.setText("Descrição");
+        getContentPane().add(LabelDescricao, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 68, -1, 15));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2019" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(57, 29));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        BoxAnoData.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2019", "2020", "2021", "2022", "2023", "2024", "2025" }));
+        BoxAnoData.setPreferredSize(new java.awt.Dimension(57, 29));
+        BoxAnoData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                BoxAnoDataActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 57, 23));
+        getContentPane().add(BoxAnoData, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 70, 23));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        jComboBox2.setPreferredSize(new java.awt.Dimension(57, 29));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 231, 57, 23));
+        BoxHoraInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        BoxHoraInicio.setPreferredSize(new java.awt.Dimension(57, 29));
+        getContentPane().add(BoxHoraInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 231, 57, 23));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
-        getContentPane().add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 311, 57, 22));
+        BoxHoraFim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        getContentPane().add(BoxHoraFim, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 311, 57, 22));
 
-        jLabel3.setText("Data");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 134, -1, -1));
+        LabelData.setText("Data");
+        getContentPane().add(LabelData, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 134, -1, -1));
 
-        jLabel4.setText("Horário de inicio");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 202, -1, -1));
+        LabelHorarioDeInicio.setText("Horário de inicio");
+        getContentPane().add(LabelHorarioDeInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(71, 202, -1, -1));
 
-        jLabel5.setText("Horário de fim");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(77, 286, -1, -1));
+        LabelHorarioDeFim.setText("Horário de fim");
+        getContentPane().add(LabelHorarioDeFim, new org.netbeans.lib.awtextra.AbsoluteConstraints(77, 286, -1, -1));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" }));
-        getContentPane().add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 231, 57, 23));
+        BoxMinInicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" }));
+        getContentPane().add(BoxMinInicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 231, 57, 23));
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" }));
-        getContentPane().add(jComboBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 311, 57, 22));
+        BoxMinFim.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55" }));
+        getContentPane().add(BoxMinFim, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 311, 57, 22));
 
-        jLabel6.setText(":");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 237, -1, -1));
+        Label2PontosHI.setText(":");
+        getContentPane().add(Label2PontosHI, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 237, -1, -1));
 
-        jLabel7.setText(":");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 311, 10, -1));
+        Label2PontosHF.setText(":");
+        getContentPane().add(Label2PontosHF, new org.netbeans.lib.awtextra.AbsoluteConstraints(118, 311, 10, -1));
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
-        getContentPane().add(jComboBox6, new org.netbeans.lib.awtextra.AbsoluteConstraints(116, 161, 57, 23));
+        BoxMesData.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        getContentPane().add(BoxMesData, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 57, 23));
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        jComboBox7.addActionListener(new java.awt.event.ActionListener() {
+        BoxDiaData.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        BoxDiaData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox7ActionPerformed(evt);
+                BoxDiaDataActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox7, new org.netbeans.lib.awtextra.AbsoluteConstraints(191, 161, 57, 23));
+        getContentPane().add(BoxDiaData, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, 57, 23));
 
-        jLabel8.setText("Marcar Evento como : ");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 134, -1, -1));
+        LabelMarcarEvento.setText("Marcar Evento como : ");
+        getContentPane().add(LabelMarcarEvento, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 134, -1, -1));
 
-        jRadioButton1.setText("Favorito");
-        getContentPane().add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 161, -1, -1));
+        BotaoBooleanoFavoito.setText("Favorito");
+        getContentPane().add(BotaoBooleanoFavoito, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 161, -1, -1));
 
-        jRadioButton2.setText("Escolar");
-        getContentPane().add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 201, -1, -1));
+        BotaoBooleanoEscolar.setText("Escolar");
+        getContentPane().add(BotaoBooleanoEscolar, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 201, -1, -1));
 
-        jRadioButton3.setText("Feriado");
-        getContentPane().add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 241, -1, -1));
+        BotaoBooleanoFeriado.setText("Feriado");
+        getContentPane().add(BotaoBooleanoFeriado, new org.netbeans.lib.awtextra.AbsoluteConstraints(468, 241, -1, -1));
 
-        jLabel9.setText("/");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 165, -1, -1));
+        LabelBarraData1.setText("/");
+        getContentPane().add(LabelBarraData1, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 165, -1, -1));
 
-        jLabel10.setText("/");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(182, 165, -1, -1));
+        LabelBarraData2.setText("/");
+        getContentPane().add(LabelBarraData2, new org.netbeans.lib.awtextra.AbsoluteConstraints(182, 165, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -245,28 +246,28 @@ private void salvar(){
     /** 
      * Fechar apenas a janela atual
      */
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void BotaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoCancelarActionPerformed
         AdicionarEvento.this.dispose(); 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_BotaoCancelarActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jComboBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox7ActionPerformed
+    private void BoxDiaDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoxDiaDataActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox7ActionPerformed
+    }//GEN-LAST:event_BoxDiaDataActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void BoxAnoDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BoxAnoDataActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_BoxAnoDataActionPerformed
     
     /** 
      * Gatilho do botão Avançar para chamar a função salvar()
      */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void BotaoAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAvancarActionPerformed
        salvar();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_BotaoAvancarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -305,29 +306,29 @@ private void salvar(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotaoAvancar;
+    private javax.swing.JRadioButton BotaoBooleanoEscolar;
+    private javax.swing.JRadioButton BotaoBooleanoFavoito;
+    private javax.swing.JRadioButton BotaoBooleanoFeriado;
+    private javax.swing.JButton BotaoCancelar;
+    private javax.swing.JComboBox<String> BoxAnoData;
+    private javax.swing.JComboBox<String> BoxDiaData;
+    private javax.swing.JComboBox<String> BoxHoraFim;
+    private javax.swing.JComboBox<String> BoxHoraInicio;
+    private javax.swing.JComboBox<String> BoxMesData;
+    private javax.swing.JComboBox<String> BoxMinFim;
+    private javax.swing.JComboBox<String> BoxMinInicio;
+    private javax.swing.JLabel Label2PontosHF;
+    private javax.swing.JLabel Label2PontosHI;
+    private javax.swing.JLabel LabelBarraData1;
+    private javax.swing.JLabel LabelBarraData2;
+    private javax.swing.JLabel LabelData;
+    private javax.swing.JLabel LabelDescricao;
+    private javax.swing.JLabel LabelHorarioDeFim;
+    private javax.swing.JLabel LabelHorarioDeInicio;
+    private javax.swing.JLabel LabelMarcarEvento;
+    private javax.swing.JLabel LabelTitulo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JComboBox<String> jComboBox7;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
