@@ -1,5 +1,4 @@
-drop database gato;
-create database gato;
+#create database gato if not exists;
 use gato;
 
 create table Evento (
@@ -46,10 +45,6 @@ insert into Evento_Semanal values(null, 'Cálculo I', 'Quarta', '10:00', '12:00'
 insert into Evento_Semanal values(null, 'OCD', 'Quarta', '08:00', '10:00');
 insert into Evento_Semanal values(null, 'Grupo de Estudos', 'Sábado', '08:00', '10:00');
 insert into Evento_Semanal values(null, 'Almoco na Vó', 'Domingo', '10:00', '14:00');
-
-select * from evento;
-
-#insert into Evento values(null, 'Feriado x', '19-11-23', '00:00', '23:00', 'Feriado Oficial', 0, 1, 0);
 
 insert into Evento values(null, 'Confraternização Universal', '13-01-01', '00:00', '23:00', 'Feriado Oficial', 0, 1, 0);
 insert into Evento values(null, 'Confraternização Universal', '14-01-01', '00:00', '23:00', 'Feriado Oficial', 0, 1, 0);
