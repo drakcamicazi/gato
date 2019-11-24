@@ -37,9 +37,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         hoje = LocalDateTime.now();
         mesExibido = hoje.getMonth().getValue();
         anoExibido = hoje.getYear();
-        preencherCalendario(mesExibido, anoExibido);
-        preencherListaEventosFav();
-        preencherListaEventosAtiv();
+        //preencherCalendario(mesExibido, anoExibido);
+        //preencherListaEventosFav();
+        //preencherListaEventosAtiv();
     }
     
     private void preencherCalendario(int mes, int ano){
@@ -1258,7 +1258,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         PainelTabelas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         PainelTabelas.setMinimumSize(new java.awt.Dimension(150, 150));
         PainelTabelas.setPreferredSize(new java.awt.Dimension(150, 150));
-        PainelTabelas.setLayout(new java.awt.GridLayout());
+        PainelTabelas.setLayout(new java.awt.GridLayout(1, 0));
 
         tabelaFavorito.setPreferredSize(new java.awt.Dimension(150, 264));
         tabelaFavorito.setLayout(new java.awt.BorderLayout());
