@@ -89,6 +89,8 @@ public class DeletarSemanal extends javax.swing.JFrame {
                 });
                 pnListaEventos.add(l);
             }
+            stm.close();
+            conexao.close();
         } catch (HeadlessException | SQLException excp) {
             JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
             System.err.println(excp);

@@ -5,18 +5,289 @@
  */
 package gato;
 
+import java.awt.Color;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Admin
  */
 public class TelaDeInicio extends javax.swing.JFrame {
+    LocalDateTime hoje;
+    int mesExibido, anoExibido;
 
     /**
      * Creates new form TelaDeInicio
      */
     public TelaDeInicio() {
+        this.setTitle("G.A.T.O. - Aplicação de Gestão de Atividades, Trabalhos e Obrigações");
         initComponents();
+        adicionarInformacoesAdicionais();
+        hoje = LocalDateTime.now();
+        mesExibido = hoje.getMonth().getValue();
+        anoExibido = hoje.getYear();
+        preencherCalendario(mesExibido, anoExibido);
     }
+    
+    private void preencherCalendario(int mes, int ano){
+        MesEAno mea = new MesEAno(mes, ano);
+        int i, j, numDia, desabilitados;
+        
+        TextoMes.setText(nomeDoMes(mes)+" "+ ano);
+        limparCalendario();
+        
+        for(desabilitados = 1; desabilitados < mea.Dia1(); desabilitados++){
+            desabilitarDia(1, desabilitados);
+        }
+        
+        for(i = mea.Dia1(), j = 1, numDia = 1; i < mea.Dia1() + mea.QuantidadeDeDias(); i++, numDia++) {
+            switch(i % 7) {
+                case 0://se é sabado
+                   preencherDia(numDia, j, 7);
+                   break;
+                case 1://se não é sabado
+                    if(i != 1)//se o mes não começa em um domingo
+                        j++;  //mudar a semana
+                    preencherDia(numDia, j, i % 7);
+                    break;
+                default :
+                    preencherDia(numDia, j, i % 7);
+                    break;
+           }
+            if(numDia == hoje.getDayOfMonth() && mes == hoje.getMonth().getValue() && ano == hoje.getYear()){
+                getPanel(j, i % 7).setBackground(new Color(150, 150, 230));
+            }
+        }
+        
+        for (i = mea.QuantidadeDeDias() + desabilitados; i <= 42; i++){
+            switch(i % 7) {
+                case 0://se é sabado
+                   desabilitarDia(j, 7);
+                   break;
+                case 1://se não é sabado
+                    j++;  //mudar a semana
+                    desabilitarDia(j, i % 7);
+                    break;
+                default :
+                    desabilitarDia(j, i % 7);
+                    break;
+           }
+        }        
+    }
+    
+    private void desabilitarDia(int x, int y){        
+        getPanel(x, y).setBackground(new Color(180, 180, 180));
+        getPanel(x, y).removeMouseListener(getPanel(x, y).getMouseListeners()[0]);
+    }
+    
+    private void habilitarDia(int x, int y){        
+        getPanel(x, y).setBackground(new Color(214, 217, 223));//cores default
+        getPanel(x, y).addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abrirListarDia(1, 1, 2019);
+            }
+        });
+    }
+    
+    private void preencherDia(Integer dia, int x, int y){
+        getPanel(x, y).setLayout(new BoxLayout(getPanel(x, y), BoxLayout.PAGE_AXIS));
+        JLabel aux = new JLabel(dia.toString());
+        aux.setFont(aux.getFont().deriveFont(14.0f));
+        getPanel(x, y).add(aux);
+        
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm;
+        ResultSet rs;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            pstm = conexao.prepareStatement("select titulo from evento where dia = ? order by dia asc, hora_inicio asc");
+            pstm.setString(1, anoExibido +"-"+ mesExibido +"-"+ dia);
+            
+            pstm.execute();
+            rs = pstm.getResultSet();
+
+            while (rs.next()) {
+                JLabel l = new JLabel(rs.getString("titulo"));
+                getPanel(x, y).add(l);                
+            }
+            pstm.close();
+            conexao.close();
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
+            System.err.println(excp);
+        }
+    }
+    
+    private void limparCalendario() {
+        for (int i = 1; i <= 6; i++) {
+            for (int j = 1; j <=7; j++) {
+               getPanel(i, j).removeAll();
+               getPanel(i, j).revalidate();
+               getPanel(i, j).repaint();
+               habilitarDia(i, j);
+            }
+        }
+    }
+    
+    private void abrirListarDia(int dia, int mes, int ano){
+        //TODO chamar janela
+        System.out.println("Chamou abrirListarDia");
+    }
+    
+    private String nomeDoMes(int mes){
+        switch(mes){
+            case 1:
+                return "Janeiro";
+            case 2:
+                return "Fevereiro";
+            case 3:
+                return "Março";
+            case 4:
+                return "Abril";
+            case 5:
+                return "Maio";
+            case 6:
+                return "Junho";
+            case 7:
+                return "Julho";
+            case 8:
+                return "Agosto";
+            case 9:
+                return "Setembro";
+            case 10:
+                return "Outubro";
+            case 11:
+                return "Novembro";
+            case 12:
+                return "Dezembro"; 
+            default :
+                return null;
+        }
+    }
+    
+    private void preencherListaEventos(String[] eventos)
+    {
+        JLabel labelEvento;
+        for (String evento : eventos) {
+            labelEvento = new JLabel(evento);
+            labelEvento.setFont(labelEvento.getFont().deriveFont (16.0f));
+            listaEventos.add(labelEvento);
+            labelEvento = new JLabel("\n");
+            listaEventos.add(labelEvento);
+        }
+    }    
+    
+    private void adicionarInformacoesAdicionais(){
+        PainelTabelas = new javax.swing.JPanel();
+        tabelaFavorito = new javax.swing.JPanel();
+        panelTitulo = new javax.swing.JPanel();
+        textTitulo = new javax.swing.JLabel();
+        scrollEventos = new javax.swing.JScrollPane();
+        listaEventos = new javax.swing.JPanel();
+        tabelaFeriado = new javax.swing.JPanel();
+        scrollEventos2 = new javax.swing.JScrollPane();
+        listaEventos2 = new javax.swing.JPanel();
+        panelTitulo2 = new javax.swing.JPanel();
+        textTitulo2 = new javax.swing.JLabel();
+        
+        InformacoesExtras.setLayout(new java.awt.GridLayout(3, 0));InformacoesExtras.add(PainelBotoes);
+
+        PainelTabelas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PainelTabelas.setMinimumSize(new java.awt.Dimension(150, 150));
+        PainelTabelas.setPreferredSize(new java.awt.Dimension(150, 150));
+        PainelTabelas.setLayout(new java.awt.GridLayout());
+
+        tabelaFavorito.setPreferredSize(new java.awt.Dimension(150, 264));
+        tabelaFavorito.setLayout(new java.awt.BorderLayout());
+
+        panelTitulo.setLayout(new java.awt.BorderLayout());
+
+        textTitulo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        textTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        textTitulo.setText("Favoritos");
+        textTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        panelTitulo.add(textTitulo, java.awt.BorderLayout.CENTER);
+
+        tabelaFavorito.add(panelTitulo, java.awt.BorderLayout.NORTH);
+
+        scrollEventos.setMinimumSize(new java.awt.Dimension(150, 350));
+        scrollEventos.setPreferredSize(new java.awt.Dimension(150, 350));
+
+        listaEventos.setMaximumSize(new java.awt.Dimension(10000, 10000));
+        listaEventos.setMinimumSize(new java.awt.Dimension(100, 100));
+        listaEventos.setPreferredSize(new java.awt.Dimension(150, 800));
+        listaEventos.setLayout(new javax.swing.BoxLayout(listaEventos, javax.swing.BoxLayout.PAGE_AXIS));
+        scrollEventos.setViewportView(listaEventos);
+
+        tabelaFavorito.add(scrollEventos, java.awt.BorderLayout.CENTER);
+
+        PainelTabelas.add(tabelaFavorito);
+
+        tabelaFeriado.setMinimumSize(new java.awt.Dimension(150, 394));
+        tabelaFeriado.setLayout(new java.awt.BorderLayout());
+
+        scrollEventos2.setMinimumSize(new java.awt.Dimension(150, 350));
+        scrollEventos2.setPreferredSize(new java.awt.Dimension(150, 350));
+
+        listaEventos2.setMaximumSize(new java.awt.Dimension(10000, 10000));
+        listaEventos2.setMinimumSize(new java.awt.Dimension(100, 100));
+        listaEventos2.setPreferredSize(new java.awt.Dimension(150, 800));
+        listaEventos2.setLayout(new javax.swing.BoxLayout(listaEventos2, javax.swing.BoxLayout.PAGE_AXIS));
+        scrollEventos2.setViewportView(listaEventos2);
+
+        tabelaFeriado.add(scrollEventos2, java.awt.BorderLayout.CENTER);
+
+        panelTitulo2.setLayout(new java.awt.BorderLayout());
+
+        textTitulo2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        textTitulo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        textTitulo2.setText("Atividades");
+        textTitulo2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        panelTitulo2.add(textTitulo2, java.awt.BorderLayout.CENTER);
+
+        tabelaFeriado.add(panelTitulo2, java.awt.BorderLayout.NORTH);
+
+        PainelTabelas.add(tabelaFeriado);
+
+        InformacoesExtras.add(PainelTabelas);
+
+        PainelRotina.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout PainelRotinaLayout = new javax.swing.GroupLayout(PainelRotina);
+        PainelRotina.setLayout(PainelRotinaLayout);
+        PainelRotinaLayout.setHorizontalGroup(
+            PainelRotinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 443, Short.MAX_VALUE)
+        );
+        PainelRotinaLayout.setVerticalGroup(
+            PainelRotinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 394, Short.MAX_VALUE)
+        );
+
+        InformacoesExtras.add(PainelRotina);
+
+        getContentPane().add(InformacoesExtras, java.awt.BorderLayout.EAST);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,9 +371,9 @@ public class TelaDeInicio extends javax.swing.JFrame {
         PainelCalendario.setPreferredSize(new java.awt.Dimension(800, 800));
         PainelCalendario.setLayout(new java.awt.BorderLayout());
 
-        Dias.setLayout(new java.awt.GridLayout(6, 7));
+        Dias.setLayout(new java.awt.GridLayout(6, 7, 1, 1));
 
-        diaPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel11MouseClicked(evt);
@@ -113,16 +384,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel11.setLayout(diaPanel11Layout);
         diaPanel11Layout.setHorizontalGroup(
             diaPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel11Layout.setVerticalGroup(
             diaPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel11);
 
-        diaPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel12MouseClicked(evt);
@@ -133,16 +404,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel12.setLayout(diaPanel12Layout);
         diaPanel12Layout.setHorizontalGroup(
             diaPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel12Layout.setVerticalGroup(
             diaPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel12);
 
-        diaPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel13.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel13.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel13MouseClicked(evt);
@@ -153,16 +424,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel13.setLayout(diaPanel13Layout);
         diaPanel13Layout.setHorizontalGroup(
             diaPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel13Layout.setVerticalGroup(
             diaPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel13);
 
-        diaPanel14.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel14.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel14MouseClicked(evt);
@@ -173,16 +444,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel14.setLayout(diaPanel14Layout);
         diaPanel14Layout.setHorizontalGroup(
             diaPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel14Layout.setVerticalGroup(
             diaPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel14);
 
-        diaPanel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel15.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel15MouseClicked(evt);
@@ -193,16 +464,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel15.setLayout(diaPanel15Layout);
         diaPanel15Layout.setHorizontalGroup(
             diaPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel15Layout.setVerticalGroup(
             diaPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel15);
 
-        diaPanel16.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel16.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel16MouseClicked(evt);
@@ -213,16 +484,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel16.setLayout(diaPanel16Layout);
         diaPanel16Layout.setHorizontalGroup(
             diaPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel16Layout.setVerticalGroup(
             diaPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel16);
 
-        diaPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel17.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel17.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel17MouseClicked(evt);
@@ -233,16 +504,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel17.setLayout(diaPanel17Layout);
         diaPanel17Layout.setHorizontalGroup(
             diaPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel17Layout.setVerticalGroup(
             diaPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel17);
 
-        diaPanel21.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel21.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel21.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel21MouseClicked(evt);
@@ -253,16 +524,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel21.setLayout(diaPanel21Layout);
         diaPanel21Layout.setHorizontalGroup(
             diaPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel21Layout.setVerticalGroup(
             diaPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel21);
 
-        diaPanel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel22.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel22.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel22MouseClicked(evt);
@@ -273,16 +544,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel22.setLayout(diaPanel22Layout);
         diaPanel22Layout.setHorizontalGroup(
             diaPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel22Layout.setVerticalGroup(
             diaPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel22);
 
-        diaPanel23.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel23.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel23.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel23MouseClicked(evt);
@@ -293,16 +564,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel23.setLayout(diaPanel23Layout);
         diaPanel23Layout.setHorizontalGroup(
             diaPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel23Layout.setVerticalGroup(
             diaPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel23);
 
-        diaPanel24.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel24.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel24.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel24MouseClicked(evt);
@@ -313,16 +584,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel24.setLayout(diaPanel24Layout);
         diaPanel24Layout.setHorizontalGroup(
             diaPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel24Layout.setVerticalGroup(
             diaPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel24);
 
-        diaPanel25.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel25.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel25.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel25MouseClicked(evt);
@@ -333,16 +604,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel25.setLayout(diaPanel25Layout);
         diaPanel25Layout.setHorizontalGroup(
             diaPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel25Layout.setVerticalGroup(
             diaPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel25);
 
-        diaPanel26.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel26.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel26.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel26MouseClicked(evt);
@@ -353,16 +624,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel26.setLayout(diaPanel26Layout);
         diaPanel26Layout.setHorizontalGroup(
             diaPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel26Layout.setVerticalGroup(
             diaPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel26);
 
-        diaPanel27.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel27.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel27.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel27MouseClicked(evt);
@@ -373,16 +644,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel27.setLayout(diaPanel27Layout);
         diaPanel27Layout.setHorizontalGroup(
             diaPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel27Layout.setVerticalGroup(
             diaPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel27);
 
-        diaPanel31.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel31.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel31.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel31MouseClicked(evt);
@@ -393,16 +664,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel31.setLayout(diaPanel31Layout);
         diaPanel31Layout.setHorizontalGroup(
             diaPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel31Layout.setVerticalGroup(
             diaPanel31Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel31);
 
-        diaPanel32.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel32.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel32.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel32MouseClicked(evt);
@@ -413,16 +684,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel32.setLayout(diaPanel32Layout);
         diaPanel32Layout.setHorizontalGroup(
             diaPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel32Layout.setVerticalGroup(
             diaPanel32Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel32);
 
-        diaPanel33.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel33.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel33.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel33MouseClicked(evt);
@@ -433,16 +704,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel33.setLayout(diaPanel33Layout);
         diaPanel33Layout.setHorizontalGroup(
             diaPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel33Layout.setVerticalGroup(
             diaPanel33Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel33);
 
-        diaPanel34.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel34.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel34.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel34MouseClicked(evt);
@@ -453,16 +724,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel34.setLayout(diaPanel34Layout);
         diaPanel34Layout.setHorizontalGroup(
             diaPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel34Layout.setVerticalGroup(
             diaPanel34Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel34);
 
-        diaPanel35.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel35.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel35.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel35MouseClicked(evt);
@@ -473,16 +744,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel35.setLayout(diaPanel35Layout);
         diaPanel35Layout.setHorizontalGroup(
             diaPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel35Layout.setVerticalGroup(
             diaPanel35Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel35);
 
-        diaPanel36.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel36.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel36.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel36MouseClicked(evt);
@@ -493,16 +764,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel36.setLayout(diaPanel36Layout);
         diaPanel36Layout.setHorizontalGroup(
             diaPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel36Layout.setVerticalGroup(
             diaPanel36Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel36);
 
-        diaPanel37.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel37.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel37.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel37MouseClicked(evt);
@@ -513,16 +784,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel37.setLayout(diaPanel37Layout);
         diaPanel37Layout.setHorizontalGroup(
             diaPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel37Layout.setVerticalGroup(
             diaPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel37);
 
-        diaPanel41.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel41.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel41.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel41MouseClicked(evt);
@@ -533,16 +804,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel41.setLayout(diaPanel41Layout);
         diaPanel41Layout.setHorizontalGroup(
             diaPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel41Layout.setVerticalGroup(
             diaPanel41Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel41);
 
-        diaPanel42.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel42.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel42.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel42MouseClicked(evt);
@@ -553,16 +824,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel42.setLayout(diaPanel42Layout);
         diaPanel42Layout.setHorizontalGroup(
             diaPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel42Layout.setVerticalGroup(
             diaPanel42Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel42);
 
-        diaPanel43.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel43.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel43.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel43MouseClicked(evt);
@@ -573,16 +844,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel43.setLayout(diaPanel43Layout);
         diaPanel43Layout.setHorizontalGroup(
             diaPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel43Layout.setVerticalGroup(
             diaPanel43Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel43);
 
-        diaPanel44.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel44.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel44.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel44MouseClicked(evt);
@@ -593,16 +864,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel44.setLayout(diaPanel44Layout);
         diaPanel44Layout.setHorizontalGroup(
             diaPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel44Layout.setVerticalGroup(
             diaPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel44);
 
-        diaPanel45.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel45.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel45.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel45MouseClicked(evt);
@@ -613,16 +884,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel45.setLayout(diaPanel45Layout);
         diaPanel45Layout.setHorizontalGroup(
             diaPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel45Layout.setVerticalGroup(
             diaPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel45);
 
-        diaPanel46.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel46.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel46.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel46MouseClicked(evt);
@@ -633,16 +904,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel46.setLayout(diaPanel46Layout);
         diaPanel46Layout.setHorizontalGroup(
             diaPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel46Layout.setVerticalGroup(
             diaPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel46);
 
-        diaPanel47.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel47.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel47.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel47MouseClicked(evt);
@@ -653,16 +924,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel47.setLayout(diaPanel47Layout);
         diaPanel47Layout.setHorizontalGroup(
             diaPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel47Layout.setVerticalGroup(
             diaPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel47);
 
-        diaPanel51.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel51.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel51.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel51MouseClicked(evt);
@@ -673,16 +944,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel51.setLayout(diaPanel51Layout);
         diaPanel51Layout.setHorizontalGroup(
             diaPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel51Layout.setVerticalGroup(
             diaPanel51Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel51);
 
-        diaPanel52.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel52.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel52.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel52MouseClicked(evt);
@@ -693,16 +964,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel52.setLayout(diaPanel52Layout);
         diaPanel52Layout.setHorizontalGroup(
             diaPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel52Layout.setVerticalGroup(
             diaPanel52Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel52);
 
-        diaPanel53.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel53.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel53.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel53MouseClicked(evt);
@@ -713,16 +984,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel53.setLayout(diaPanel53Layout);
         diaPanel53Layout.setHorizontalGroup(
             diaPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel53Layout.setVerticalGroup(
             diaPanel53Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel53);
 
-        diaPanel54.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel54.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel54.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel54MouseClicked(evt);
@@ -733,16 +1004,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel54.setLayout(diaPanel54Layout);
         diaPanel54Layout.setHorizontalGroup(
             diaPanel54Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel54Layout.setVerticalGroup(
             diaPanel54Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel54);
 
-        diaPanel55.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel55.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel55.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel55MouseClicked(evt);
@@ -753,16 +1024,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel55.setLayout(diaPanel55Layout);
         diaPanel55Layout.setHorizontalGroup(
             diaPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel55Layout.setVerticalGroup(
             diaPanel55Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel55);
 
-        diaPanel56.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel56.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel56.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel56MouseClicked(evt);
@@ -773,16 +1044,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel56.setLayout(diaPanel56Layout);
         diaPanel56Layout.setHorizontalGroup(
             diaPanel56Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel56Layout.setVerticalGroup(
             diaPanel56Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel56);
 
-        diaPanel57.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel57.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel57.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel57MouseClicked(evt);
@@ -793,16 +1064,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel57.setLayout(diaPanel57Layout);
         diaPanel57Layout.setHorizontalGroup(
             diaPanel57Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel57Layout.setVerticalGroup(
             diaPanel57Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel57);
 
-        diaPanel61.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel61.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel61.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel61MouseClicked(evt);
@@ -813,16 +1084,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel61.setLayout(diaPanel61Layout);
         diaPanel61Layout.setHorizontalGroup(
             diaPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel61Layout.setVerticalGroup(
             diaPanel61Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel61);
 
-        diaPanel62.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel62.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel62.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel62MouseClicked(evt);
@@ -833,16 +1104,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel62.setLayout(diaPanel62Layout);
         diaPanel62Layout.setHorizontalGroup(
             diaPanel62Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel62Layout.setVerticalGroup(
             diaPanel62Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel62);
 
-        diaPanel63.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel63.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel63.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel63MouseClicked(evt);
@@ -853,16 +1124,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel63.setLayout(diaPanel63Layout);
         diaPanel63Layout.setHorizontalGroup(
             diaPanel63Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel63Layout.setVerticalGroup(
             diaPanel63Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel63);
 
-        diaPanel64.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel64.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel64.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel64MouseClicked(evt);
@@ -873,16 +1144,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel64.setLayout(diaPanel64Layout);
         diaPanel64Layout.setHorizontalGroup(
             diaPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel64Layout.setVerticalGroup(
             diaPanel64Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel64);
 
-        diaPanel65.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel65.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel65.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel65MouseClicked(evt);
@@ -893,16 +1164,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel65.setLayout(diaPanel65Layout);
         diaPanel65Layout.setHorizontalGroup(
             diaPanel65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel65Layout.setVerticalGroup(
             diaPanel65Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel65);
 
-        diaPanel66.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel66.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel66.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel66MouseClicked(evt);
@@ -913,16 +1184,16 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel66.setLayout(diaPanel66Layout);
         diaPanel66Layout.setHorizontalGroup(
             diaPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel66Layout.setVerticalGroup(
             diaPanel66Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel66);
 
-        diaPanel67.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        diaPanel67.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         diaPanel67.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 diaPanel67MouseClicked(evt);
@@ -933,22 +1204,22 @@ public class TelaDeInicio extends javax.swing.JFrame {
         diaPanel67.setLayout(diaPanel67Layout);
         diaPanel67Layout.setHorizontalGroup(
             diaPanel67Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGap(0, 221, Short.MAX_VALUE)
         );
         diaPanel67Layout.setVerticalGroup(
             diaPanel67Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGap(0, 118, Short.MAX_VALUE)
         );
 
         Dias.add(diaPanel67);
 
         PainelCalendario.add(Dias, java.awt.BorderLayout.CENTER);
 
-        Titulo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Titulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         Titulo.setLayout(new java.awt.BorderLayout());
 
         DiasSemana.setBackground(new java.awt.Color(150, 150, 150));
-        DiasSemana.setLayout(new java.awt.GridLayout());
+        DiasSemana.setLayout(new java.awt.GridLayout(1, 0));
 
         Domingo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Domingo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -973,14 +1244,14 @@ public class TelaDeInicio extends javax.swing.JFrame {
 
         Quarta.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Quarta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Quarta.setText("Quinta");
+        Quarta.setText("Quarta");
         Quarta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Quarta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         DiasSemana.add(Quarta);
 
         Quinta.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Quinta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Quinta.setText("Quarta");
+        Quinta.setText("Quinta");
         Quinta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Quinta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         DiasSemana.add(Quinta);
@@ -1113,7 +1384,6 @@ public class TelaDeInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_BotaoExpEscolaresActionPerformed
 
     private void BotaoAddEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoActionPerformed
-        // TODO add your handling code here:
          new  AdicionarEvento().setVisible(true);
     }//GEN-LAST:event_BotaoAddEventoActionPerformed
 
@@ -1122,7 +1392,6 @@ public class TelaDeInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_BotaoExpFavoActionPerformed
 
     private void BotaoAddEventoSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoSemanalActionPerformed
-        // TODO add your handling code here:
          new  AdicionarEventoSemanal().setVisible(true);
     }//GEN-LAST:event_BotaoAddEventoSemanalActionPerformed
 
@@ -1337,11 +1606,27 @@ public class TelaDeInicio extends javax.swing.JFrame {
     }//GEN-LAST:event_diaPanel67MouseClicked
 
     private void arrowLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowLActionPerformed
-        // TODO add your handling code here:
+        // clicou pra esquerda, diminui um mês
+        if (mesExibido == 1){
+            mesExibido = 12;
+            anoExibido--;
+        }
+        else{
+            mesExibido--;
+        }
+        preencherCalendario(mesExibido, anoExibido);
     }//GEN-LAST:event_arrowLActionPerformed
 
     private void arrowRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowRActionPerformed
-        // TODO add your handling code here:
+        // clicou pra direita, aumenta um mês
+        if (mesExibido == 12) {
+            mesExibido = 1;
+            anoExibido++;
+        }
+        else{
+            mesExibido++;
+        }
+        preencherCalendario(mesExibido, anoExibido);
     }//GEN-LAST:event_arrowRActionPerformed
 
     /**
@@ -1447,4 +1732,108 @@ public class TelaDeInicio extends javax.swing.JFrame {
     private javax.swing.JPanel diaPanel66;
     private javax.swing.JPanel diaPanel67;
     // End of variables declaration//GEN-END:variables
+
+    private javax.swing.JPanel listaEventos;
+    private javax.swing.JPanel listaEventos2;
+    private javax.swing.JPanel panelTitulo;
+    private javax.swing.JPanel panelTitulo2;
+    private javax.swing.JScrollPane scrollEventos;
+    private javax.swing.JScrollPane scrollEventos2;
+    private javax.swing.JPanel tabelaFavorito;
+    private javax.swing.JPanel tabelaFeriado;
+    private javax.swing.JLabel textTitulo;
+    private javax.swing.JLabel textTitulo2;
+    
+    private JPanel getPanel(Integer linha, Integer col){
+        String op = linha.toString() + col.toString();
+        switch(op){
+            case "11":
+                return diaPanel11;
+            case "12":
+                return diaPanel12;
+            case "13":
+                return diaPanel13;
+            case "14":
+                return diaPanel14;
+            case "15":
+                return diaPanel15;
+            case "16":
+                return diaPanel16;
+            case "17":
+                return diaPanel17;
+            case "21":
+                return diaPanel21;
+            case "22":
+                return diaPanel22;
+            case "23":
+                return diaPanel23;
+            case "24":
+                return diaPanel24;
+            case "25":
+                return diaPanel25;
+            case "26":
+                return diaPanel26;
+            case "27":
+                return diaPanel27;
+            case "31":
+                return diaPanel31;
+            case "32":
+                return diaPanel32;
+            case "33":
+                return diaPanel33;
+            case "34":
+                return diaPanel34;
+            case "35":
+                return diaPanel35;
+            case "36":
+                return diaPanel36;
+            case "37":
+                return diaPanel37;
+            case "41":
+                return diaPanel41;
+            case "42":
+                return diaPanel42;
+            case "43":
+                return diaPanel43;
+            case "44":
+                return diaPanel44;
+            case "45":
+                return diaPanel45;
+            case "46":
+                return diaPanel46;
+            case "47":
+                return diaPanel47;
+            case "51":
+                return diaPanel51;
+            case "52":
+                return diaPanel52;
+            case "53":
+                return diaPanel53;
+            case "54":
+                return diaPanel54;
+            case "55":
+                return diaPanel55;
+            case "56":
+                return diaPanel56;
+            case "57":
+                return diaPanel57;
+            case "61":
+                return diaPanel61;
+            case "62":
+                return diaPanel62;
+            case "63":
+                return diaPanel63;
+            case "64":
+                return diaPanel64;
+            case "65":
+                return diaPanel65;
+            case "66":
+                return diaPanel66;
+            case "67":
+                return diaPanel67;
+            default:
+                 System.err.println("Coordenadas inválidas");
+                 return null;
+         }
+    }
 }
