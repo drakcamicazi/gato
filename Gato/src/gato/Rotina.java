@@ -33,10 +33,10 @@ public class Rotina {
         Connection conexao;
         Statement stm;
         ResultSet rs;
-        Integer qtdEventos;
+        int h;
         int i;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Rotina.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -47,13 +47,14 @@ public class Rotina {
             
             //comeco de capturar informacoes de domingo
             stm = conexao.createStatement();
-            rs = stm.executeQuery("select titulo, hora_inicio, hour(timediff(hora_fim, hora_inicio)) as duracao from evento_semanal where dia_semana = 'Domingo' order by hora_inicio asc");
+            rs = stm.executeQuery("select titulo, hora_inicio, hour(timediff(hora_fim, hora_inicio)) as duracao, hour(timediff('00:00', hora_fim)) as hora from evento_semanal where dia_semana = 'Domingo' order by hora_inicio asc");
             
             i = 0;
             while (rs.next()) {
-                infos[i][1] = rs.getString("titulo");
-                duracao[i][1] = rs.getInt("duracao");
-                horarios[i][1] = rs.getString("hora_inicio");  
+                h = rs.getInt("hora");
+                infos[h][1] = rs.getString("titulo");
+                duracao[h][1] = rs.getInt("duracao");
+                horarios[h][1] = rs.getString("hora_inicio");  
                 i++;
             }
             stm.close();
@@ -63,14 +64,16 @@ public class Rotina {
             stm = conexao.createStatement();
             
             rs = stm.executeQuery("select count(pk_evento_semanal) as qtd_eventos from evento_semanal where dia_semana = 'Domingo'");
-            quantidade_eventos[1] = rs.getInt("qtd_eventos");
+            while(rs.next()){
+                quantidade_eventos[1] = rs.getInt("qtd_eventos");                
+            }
             
             stm.close();
             conexao.close();
             //fim de contar quantidade de eventos no domingo
         } catch (HeadlessException | SQLException excp) {
             JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
-            System.err.println(excp);
+            excp.printStackTrace();
         }
         
         
