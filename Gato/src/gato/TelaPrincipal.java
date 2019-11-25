@@ -14,25 +14,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 /**
  *
  * @author Admin
  */
 public class TelaPrincipal extends javax.swing.JFrame {
+
     LocalDateTime hoje;
     int mesExibido, anoExibido;
 
     /**
      * Creates new form TelaDeInicio
      */
-     
     public TelaPrincipal() {
         this.setExtendedState(this.getExtendedState() | TelaPrincipal.MAXIMIZED_BOTH);
         this.setTitle("G.A.T.O. - Aplicação de Gestão de Atividades, Trabalhos e Obrigações");
@@ -44,31 +48,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
         preencherCalendario(mesExibido, anoExibido);
         preencherListaEventosFav();
         preencherListaEventosAtiv();
+        preencherRotina();
     }
-    
+
     //inserirFeriadosMoveis insere todos os feriados de data não-fixa, se já não estiverem no banco
-    public void inserirFeriadosMoveis(){
+    public void inserirFeriadosMoveis() {
         String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
         Connection conexao;
         PreparedStatement pstm;
         FeriadosMoveis fm;
         ResultSet rs;
-        
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AdicionarEventoSemanal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         try {
             conexao = DriverManager.getConnection(url, usuario, senha);
-            
+
             pstm = conexao.prepareStatement("select * from evento where descricao = 'Feriado Católico'");
             rs = pstm.executeQuery();
-            if (rs.next() == false){
+            if (rs.next() == false) {
                 pstm.close();
                 //adicionar feriados de 2013 até 2025
-                for(int ano = 2013; ano <= 2025; ano++){
+                for (int ano = 2013; ano <= 2025; ano++) {
                     fm = new FeriadosMoveis(ano);
 
                     //bloco para registar Carnaval
@@ -104,86 +109,293 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     pstm.close();
                 }
             }
-            pstm.close();            
+            pstm.close();
             conexao.close();
-            
+
         } catch (HeadlessException | SQLException excp) {
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar feriados.");
             System.err.println(excp);
         }
-        
+
     }
-    
-    private void preencherCalendario(int mes, int ano){
+
+    private void preencherRotina() {
+        domingoPanel.removeAll();
+        domingoPanel.revalidate();
+        domingoPanel.repaint();
+
+        //terminar de limpar pra todo os dis de semana-------------------------------------
+        String[] l1 = new String[25], l2 = new String[25], l3 = new String[25], l4 = new String[25], l5 = new String[25], l6 = new String[25], l7 = new String[25];
+        Arrays.fill(l1, " "); Arrays.fill(l2, " "); Arrays.fill(l3, " "); Arrays.fill(l4, " "); Arrays.fill(l5, " "); Arrays.fill(l6, " "); Arrays.fill(l7, " ");
+        String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
+        Connection conexao;
+        PreparedStatement pstm1, pstm2, pstm3, pstm4, pstm5, pstm6, pstm7;
+        ResultSet rs;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DeletarSemanal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            conexao = DriverManager.getConnection(url, usuario, senha);
+            
+            pstm1 = conexao.prepareStatement("select titulo, hora_inicio, TIMEDIFF(hora_fim, hora_inicio) as duracao from evento_semanal where dia_semana = 'Domingo' order by hora_inicio asc");
+
+            pstm1.execute();
+            rs = pstm1.getResultSet();
+
+            while (rs.next()) {
+                int duracao = rs.getInt("duracao");
+                int indice = rs.getTime("hora_inicio").toLocalTime().getHour();
+                l1[indice] = rs.getString("titulo");
+                while (duracao > 0) {
+                    l1[indice + duracao - 1] = rs.getString("titulo");
+                    duracao--;
+                }
+            }
+            for (int i = 0; i <= 24; i++) {
+                System.out.println(i + ": " + l1[i]);
+                JLabel lbl = new JLabel(l1[i]);
+                lbl.setAlignmentX((float)0.5);
+                lbl.setAlignmentY((float)0.5);
+                lbl.setFont(lbl.getFont().deriveFont(14.0f));            
+                domingoPanel.add(lbl);
+            }
+            pstm1.close();
+            System.err.println("Recuperou dia 1");
+            
+            pstm2 = conexao.prepareStatement("select titulo, hora_inicio, TIMEDIFF(hora_fim, hora_inicio) as duracao from evento_semanal where dia_semana = 'Segunda' order by hora_inicio asc");
+
+            pstm2.execute();
+            rs = pstm2.getResultSet();
+
+            while (rs.next()) {
+                int duracao = rs.getInt("duracao");
+                int indice = rs.getTime("hora_inicio").toLocalTime().getHour();
+                l2[indice] = rs.getString("titulo");
+                while (duracao > 0) {
+                    l2[indice + duracao - 1] = rs.getString("titulo");
+                    duracao--;
+                }
+            }
+            for (int i = 0; i <= 24; i++) {
+                System.out.println(i + ": " + l2[i]);
+                JLabel lbl = new JLabel(l2[i]);
+                lbl.setAlignmentX((float)0.5);
+                lbl.setAlignmentY((float)0.5);
+                lbl.setFont(lbl.getFont().deriveFont(14.0f));            
+                segundaPanel.add(lbl);
+            }
+            pstm2.close();
+            System.err.println("Recuperou dia 2");
+            
+            pstm3 = conexao.prepareStatement("select titulo, hora_inicio, TIMEDIFF(hora_fim, hora_inicio) as duracao from evento_semanal where dia_semana = 'Terça' order by hora_inicio asc");
+
+            pstm3.execute();
+            rs = pstm3.getResultSet();
+
+            while (rs.next()) {
+                int duracao = rs.getInt("duracao");
+                int indice = rs.getTime("hora_inicio").toLocalTime().getHour();
+                l3[indice] = rs.getString("titulo");
+                while (duracao > 0) {
+                    l3[indice + duracao - 1] = rs.getString("titulo");
+                    duracao--;
+                }
+            }
+            for (int i = 0; i <= 24; i++) {
+                System.out.println(i + ": " + l3[i]);
+                JLabel lbl = new JLabel(l3[i]);
+                lbl.setAlignmentX((float)0.5);
+                lbl.setAlignmentY((float)0.5);
+                lbl.setFont(lbl.getFont().deriveFont(14.0f));            
+                tercaPanel.add(lbl);
+            }
+            pstm3.close();
+            System.err.println("Recuperou dia 3");
+            
+            pstm4 = conexao.prepareStatement("select titulo, hora_inicio, TIMEDIFF(hora_fim, hora_inicio) as duracao from evento_semanal where dia_semana = 'Quarta' order by hora_inicio asc");
+
+            pstm4.execute();
+            rs = pstm4.getResultSet();
+
+            while (rs.next()) {
+                int duracao = rs.getInt("duracao");
+                int indice = rs.getTime("hora_inicio").toLocalTime().getHour();
+                l4[indice] = rs.getString("titulo");
+                while (duracao > 0) {
+                    l4[indice + duracao - 1] = rs.getString("titulo");
+                    duracao--;
+                }
+            }
+            for (int i = 0; i <= 24; i++) {
+                System.out.println(i + ": " + l4[i]);
+                JLabel lbl = new JLabel(l4[i]);
+                lbl.setAlignmentX((float)0.5);
+                lbl.setAlignmentY((float)0.5);
+                lbl.setFont(lbl.getFont().deriveFont(14.0f));            
+                quartaPanel.add(lbl);
+            }
+            pstm4.close();
+            System.err.println("Recuperou dia 4");
+            
+            
+            pstm5 = conexao.prepareStatement("select titulo, hora_inicio, TIMEDIFF(hora_fim, hora_inicio) as duracao from evento_semanal where dia_semana = 'Quinta' order by hora_inicio asc");
+
+            pstm5.execute();
+            rs = pstm5.getResultSet();
+
+            while (rs.next()) {
+                int duracao = rs.getInt("duracao");
+                int indice = rs.getTime("hora_inicio").toLocalTime().getHour();
+                l5[indice] = rs.getString("titulo");
+                while (duracao > 0) {
+                    l5[indice + duracao - 1] = rs.getString("titulo");
+                    duracao--;
+                }
+            }
+            for (int i = 0; i <= 24; i++) {
+                System.out.println(i + ": " + l5[i]);
+                JLabel lbl = new JLabel(l5[i]);
+                lbl.setAlignmentX((float)0.5);
+                lbl.setAlignmentY((float)0.5);
+                lbl.setFont(lbl.getFont().deriveFont(14.0f));            
+                quintaPanel.add(lbl);
+            }
+            pstm5.close();
+            System.err.println("Recuperou dia 5");
+            
+            pstm6 = conexao.prepareStatement("select titulo, hora_inicio, TIMEDIFF(hora_fim, hora_inicio) as duracao from evento_semanal where dia_semana = 'Sexta' order by hora_inicio asc");
+
+            pstm6.execute();
+            rs = pstm6.getResultSet();
+
+            while (rs.next()) {
+                int duracao = rs.getInt("duracao");
+                int indice = rs.getTime("hora_inicio").toLocalTime().getHour();
+                l6[indice] = rs.getString("titulo");
+                while (duracao > 0) {
+                    l6[indice + duracao - 1] = rs.getString("titulo");
+                    duracao--;
+                }
+            }
+            for (int i = 0; i <= 24; i++) {
+                System.out.println(i + ": " + l6[i]);
+                JLabel lbl = new JLabel(l6[i]);
+                lbl.setAlignmentX((float)0.5);
+                lbl.setAlignmentY((float)0.5);
+                lbl.setFont(lbl.getFont().deriveFont(14.0f));            
+                sextaPanel.add(lbl);
+            }
+            pstm6.close();
+            System.err.println("Recuperou dia 1");
+            
+            pstm7 = conexao.prepareStatement("select titulo, hora_inicio, TIMEDIFF(hora_fim, hora_inicio) as duracao from evento_semanal where dia_semana = 'Sábado' order by hora_inicio asc");
+
+            pstm7.execute();
+            rs = pstm7.getResultSet();
+
+            while (rs.next()) {
+                int duracao = rs.getInt("duracao");
+                int indice = rs.getTime("hora_inicio").toLocalTime().getHour();
+                l7[indice] = rs.getString("titulo");
+                while (duracao > 0) {
+                    l7[indice + duracao - 1] = rs.getString("titulo");
+                    duracao--;
+                }
+            }
+            for (int i = 0; i <= 24; i++) {
+                System.out.println(i + ": " + l7[i]);
+                JLabel lbl = new JLabel(l7[i]);
+                lbl.setAlignmentX((float)0.5);
+                lbl.setAlignmentY((float)0.5);
+                lbl.setFont(lbl.getFont().deriveFont(14.0f));            
+                sabadoPanel.add(lbl);
+            }
+            pstm7.close();    
+            System.err.println("Recuperou dia 7");       
+            
+            conexao.close();
+        } catch (HeadlessException | SQLException excp) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
+            System.err.println(excp);
+        }
+
+    }
+
+    private void preencherCalendario(int mes, int ano) {
         MesEAno mea = new MesEAno(mes, ano);
         int i, j, numDia, desabilitados;
-        
-        TextoMes.setText(nomeDoMes(mes)+" "+ ano);
+
+        TextoMes.setText(nomeDoMes(mes) + " " + ano);
         limparCalendario();
-        
-        for(desabilitados = 1; desabilitados < mea.Dia1(); desabilitados++){
+
+        for (desabilitados = 1; desabilitados < mea.Dia1(); desabilitados++) {
             desabilitarDia(1, desabilitados);
         }
-        
-        for(i = mea.Dia1(), j = 1, numDia = 1; i < mea.Dia1() + mea.QuantidadeDeDias(); i++, numDia++) {
-            switch(i % 7) {
+
+        for (i = mea.Dia1(), j = 1, numDia = 1; i < mea.Dia1() + mea.QuantidadeDeDias(); i++, numDia++) {
+            switch (i % 7) {
                 case 0://se é sabado
-                   preencherDia(numDia, j, 7);
-                   break;
+                    preencherDia(numDia, j, 7);
+                    break;
                 case 1://se não é sabado
-                    if(i != 1)//se o mes não começa em um domingo
+                    if (i != 1)//se o mes não começa em um domingo
+                    {
                         j++;  //mudar a semana
+                    }
                     preencherDia(numDia, j, i % 7);
                     break;
-                default :
+                default:
                     preencherDia(numDia, j, i % 7);
                     break;
-           }
-            if(numDia == hoje.getDayOfMonth() && mes == hoje.getMonth().getValue() && ano == hoje.getYear()){
+            }
+            if (numDia == hoje.getDayOfMonth() && mes == hoje.getMonth().getValue() && ano == hoje.getYear()) {
                 getPanel(j, i % 7).setBackground(new Color(183, 247, 197));
             }
         }
-        
-        for (i = mea.QuantidadeDeDias() + desabilitados; i <= 42; i++){
-            switch(i % 7) {
+
+        for (i = mea.QuantidadeDeDias() + desabilitados; i <= 42; i++) {
+            switch (i % 7) {
                 case 0://se é sabado
-                   desabilitarDia(j, 7);
-                   break;
+                    desabilitarDia(j, 7);
+                    break;
                 case 1://se não é sabado
                     j++;  //mudar a semana
                     desabilitarDia(j, i % 7);
                     break;
-                default :
+                default:
                     desabilitarDia(j, i % 7);
                     break;
-           }
-        }        
+            }
+        }
     }
-    
-    private void desabilitarDia(int x, int y){        
+
+    private void desabilitarDia(int x, int y) {
         MouseListener[] ml = getPanel(x, y).getMouseListeners();
         getPanel(x, y).setBackground(new Color(180, 180, 180));
         for (MouseListener ml1 : ml) {
             getPanel(x, y).removeMouseListener(ml1);
         }
     }
-    
-    private void habilitarDia(int x, int y){        
+
+    private void habilitarDia(int x, int y) {
         getPanel(x, y).setBackground(new Color(214, 217, 223));//cores default
         getPanel(x, y).addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {                
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
             }
         });
     }
-    
-    private void preencherDia(Integer dia, int x, int y){
+
+    private void preencherDia(Integer dia, int x, int y) {
         JPanel panelAtual = getPanel(x, y);
         panelAtual.setLayout(new BoxLayout(panelAtual, BoxLayout.PAGE_AXIS));
         JLabel aux = new JLabel(dia.toString());
         aux.setFont(aux.getFont().deriveFont(14.0f));
         panelAtual.add(aux);
-        
+
         String url = "jdbc:mysql://localhost/gato?useSSL=false", usuario = "root", senha = "root";
         Connection conexao;
         PreparedStatement pstm;
@@ -197,15 +409,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         try {
             conexao = DriverManager.getConnection(url, usuario, senha);
             pstm = conexao.prepareStatement("select titulo, feriado from evento where dia = ? order by dia asc, hora_inicio asc");
-            pstm.setString(1, anoExibido +"-"+ mesExibido +"-"+ dia);
-            
+            pstm.setString(1, anoExibido + "-" + mesExibido + "-" + dia);
+
             pstm.execute();
             rs = pstm.getResultSet();
 
             while (rs.next()) {
                 JLabel l = new JLabel(rs.getString("titulo"));
-                panelAtual.add(l);                
-                if (rs.getInt("feriado") == 1){
+                panelAtual.add(l);
+                if (rs.getInt("feriado") == 1) {
                     panelAtual.setBackground(new Color(242, 249, 255));
                 }
             }
@@ -223,26 +435,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private void limparCalendario() {
         for (int i = 1; i <= 6; i++) {
-            for (int j = 1; j <=7; j++) {
-               desabilitarDia(i, j);
-               getPanel(i, j).removeAll();
-               getPanel(i, j).revalidate();
-               getPanel(i, j).repaint();
-               habilitarDia(i, j);
+            for (int j = 1; j <= 7; j++) {
+                desabilitarDia(i, j);
+                getPanel(i, j).removeAll();
+                getPanel(i, j).revalidate();
+                getPanel(i, j).repaint();
+                habilitarDia(i, j);
             }
         }
     }
-       
-        
-    private void abrirListarDia(Integer dia, Integer mes, Integer ano){
+
+    private void abrirListarDia(Integer dia, Integer mes, Integer ano) {
         new ListarDia(dia, mes, ano).setVisible(true);
     }
-    
-    private String nomeDoMes(int mes){
-        switch(mes){
+
+    private String nomeDoMes(int mes) {
+        switch (mes) {
             case 1:
                 return "Janeiro";
             case 2:
@@ -266,12 +477,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
             case 11:
                 return "Novembro";
             case 12:
-                return "Dezembro"; 
-            default :
+                return "Dezembro";
+            default:
                 return null;
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -357,7 +567,54 @@ public class TelaPrincipal extends javax.swing.JFrame {
         listaEventosAtiv = new javax.swing.JPanel();
         panelTitulo2 = new javax.swing.JPanel();
         textTitulo2 = new javax.swing.JLabel();
-        painelRotina = new javax.swing.JScrollPane();
+        painelRotina = new javax.swing.JPanel();
+        rotinaScroll = new javax.swing.JScrollPane();
+        rotinaPanel = new javax.swing.JPanel();
+        tituloPanel = new javax.swing.JPanel();
+        diasSemana = new javax.swing.JPanel();
+        horariosTitulo = new javax.swing.JLabel();
+        domingoTitulo = new javax.swing.JLabel();
+        segundaTitulo = new javax.swing.JLabel();
+        tercaTitulo = new javax.swing.JLabel();
+        quartaTitulo = new javax.swing.JLabel();
+        quintaTitulo = new javax.swing.JLabel();
+        sextaTitulo = new javax.swing.JLabel();
+        sabadoTitulo = new javax.swing.JLabel();
+        diasSemana1 = new javax.swing.JPanel();
+        horariosPanel = new javax.swing.JPanel();
+        time0 = new javax.swing.JLabel();
+        time1 = new javax.swing.JLabel();
+        time2 = new javax.swing.JLabel();
+        time3 = new javax.swing.JLabel();
+        time4 = new javax.swing.JLabel();
+        time5 = new javax.swing.JLabel();
+        time6 = new javax.swing.JLabel();
+        time7 = new javax.swing.JLabel();
+        time8 = new javax.swing.JLabel();
+        time9 = new javax.swing.JLabel();
+        time10 = new javax.swing.JLabel();
+        time11 = new javax.swing.JLabel();
+        time12 = new javax.swing.JLabel();
+        time13 = new javax.swing.JLabel();
+        time14 = new javax.swing.JLabel();
+        time15 = new javax.swing.JLabel();
+        time16 = new javax.swing.JLabel();
+        time17 = new javax.swing.JLabel();
+        time18 = new javax.swing.JLabel();
+        time19 = new javax.swing.JLabel();
+        time20 = new javax.swing.JLabel();
+        time21 = new javax.swing.JLabel();
+        time22 = new javax.swing.JLabel();
+        time23 = new javax.swing.JLabel();
+        time24 = new javax.swing.JLabel();
+        domingoPanel = new javax.swing.JPanel();
+        segundaPanel = new javax.swing.JPanel();
+        tercaPanel = new javax.swing.JPanel();
+        quartaPanel = new javax.swing.JPanel();
+        quintaPanel = new javax.swing.JPanel();
+        sextaPanel = new javax.swing.JPanel();
+        sabadoPanel = new javax.swing.JPanel();
+        tituloLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1213,7 +1470,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Titulo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         Titulo.setLayout(new java.awt.BorderLayout());
 
-        DiasSemana.setBackground(new java.awt.Color(150, 150, 150));
+        DiasSemana.setBackground(new java.awt.Color(200, 200, 200));
         DiasSemana.setLayout(new java.awt.GridLayout(1, 0));
 
         Domingo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -1364,16 +1621,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         InformacoesExtras.add(PainelBotoes);
 
+        PainelTabelas.setBackground(new java.awt.Color(150, 150, 150));
         PainelTabelas.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         PainelTabelas.setMinimumSize(new java.awt.Dimension(150, 150));
         PainelTabelas.setPreferredSize(new java.awt.Dimension(150, 150));
         PainelTabelas.setLayout(new java.awt.GridLayout(1, 0));
 
+        tabelaFavorito.setBackground(new java.awt.Color(150, 150, 150));
         tabelaFavorito.setPreferredSize(new java.awt.Dimension(150, 264));
         tabelaFavorito.setLayout(new java.awt.BorderLayout());
 
+        panelTitulo.setBackground(new java.awt.Color(200, 200, 200));
         panelTitulo.setLayout(new java.awt.BorderLayout());
 
+        textTitulo.setBackground(new java.awt.Color(200, 200, 200));
         textTitulo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         textTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         textTitulo.setText("Favoritos");
@@ -1409,6 +1670,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         tabelaAtividades.add(scrollEventos2, java.awt.BorderLayout.CENTER);
 
+        panelTitulo2.setBackground(new java.awt.Color(200, 200, 200));
         panelTitulo2.setLayout(new java.awt.BorderLayout());
 
         textTitulo2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -1422,6 +1684,247 @@ public class TelaPrincipal extends javax.swing.JFrame {
         PainelTabelas.add(tabelaAtividades);
 
         InformacoesExtras.add(PainelTabelas);
+
+        painelRotina.setBackground(new java.awt.Color(200, 200, 200));
+        painelRotina.setLayout(new java.awt.BorderLayout());
+
+        rotinaScroll.setPreferredSize(new java.awt.Dimension(103, 1000));
+
+        rotinaPanel.setMinimumSize(new java.awt.Dimension(100, 674));
+        rotinaPanel.setPreferredSize(new java.awt.Dimension(1000, 475));
+        rotinaPanel.setLayout(new java.awt.BorderLayout());
+
+        tituloPanel.setMinimumSize(new java.awt.Dimension(892, 746));
+        tituloPanel.setLayout(new java.awt.BorderLayout());
+
+        diasSemana.setLayout(new java.awt.GridLayout());
+
+        horariosTitulo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        horariosTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        horariosTitulo.setText("Horários");
+        diasSemana.add(horariosTitulo);
+
+        domingoTitulo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        domingoTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        domingoTitulo.setText("Domingo");
+        diasSemana.add(domingoTitulo);
+
+        segundaTitulo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        segundaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        segundaTitulo.setText("Segunda");
+        diasSemana.add(segundaTitulo);
+
+        tercaTitulo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        tercaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tercaTitulo.setText("Terça");
+        diasSemana.add(tercaTitulo);
+
+        quartaTitulo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        quartaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        quartaTitulo.setText("Quarta");
+        diasSemana.add(quartaTitulo);
+
+        quintaTitulo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        quintaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        quintaTitulo.setText("Quinta");
+        diasSemana.add(quintaTitulo);
+
+        sextaTitulo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        sextaTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sextaTitulo.setText("Sexta");
+        diasSemana.add(sextaTitulo);
+
+        sabadoTitulo.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        sabadoTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sabadoTitulo.setText("Sábado");
+        diasSemana.add(sabadoTitulo);
+
+        tituloPanel.add(diasSemana, java.awt.BorderLayout.CENTER);
+
+        rotinaPanel.add(tituloPanel, java.awt.BorderLayout.NORTH);
+
+        diasSemana1.setPreferredSize(new java.awt.Dimension(800, 470));
+        diasSemana1.setLayout(new java.awt.GridLayout());
+
+        horariosPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        horariosPanel.setPreferredSize(new java.awt.Dimension(100, 447));
+        horariosPanel.setLayout(new javax.swing.BoxLayout(horariosPanel, javax.swing.BoxLayout.PAGE_AXIS));
+
+        time0.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time0.setText("00:00");
+        time0.setAlignmentX(0.5F);
+        horariosPanel.add(time0);
+
+        time1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time1.setText("01:00");
+        time1.setAlignmentX(0.5F);
+        horariosPanel.add(time1);
+
+        time2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time2.setText("02:00");
+        time2.setAlignmentX(0.5F);
+        horariosPanel.add(time2);
+
+        time3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time3.setText("03:00");
+        time3.setAlignmentX(0.5F);
+        horariosPanel.add(time3);
+
+        time4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time4.setText("04:00");
+        time4.setAlignmentX(0.5F);
+        horariosPanel.add(time4);
+
+        time5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time5.setText("05:00");
+        time5.setAlignmentX(0.5F);
+        horariosPanel.add(time5);
+
+        time6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time6.setText("06:00");
+        time6.setAlignmentX(0.5F);
+        horariosPanel.add(time6);
+
+        time7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time7.setText("07:00");
+        time7.setAlignmentX(0.5F);
+        horariosPanel.add(time7);
+
+        time8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time8.setText("08:00");
+        time8.setAlignmentX(0.5F);
+        horariosPanel.add(time8);
+
+        time9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time9.setText("09:00");
+        time9.setAlignmentX(0.5F);
+        horariosPanel.add(time9);
+
+        time10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time10.setText("10:00");
+        time10.setAlignmentX(0.5F);
+        horariosPanel.add(time10);
+
+        time11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time11.setText("11:00");
+        time11.setAlignmentX(0.5F);
+        horariosPanel.add(time11);
+
+        time12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time12.setText("12:00");
+        time12.setAlignmentX(0.5F);
+        horariosPanel.add(time12);
+
+        time13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time13.setText("13:00");
+        time13.setAlignmentX(0.5F);
+        horariosPanel.add(time13);
+
+        time14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time14.setText("14:00");
+        time14.setAlignmentX(0.5F);
+        horariosPanel.add(time14);
+
+        time15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time15.setText("15:00");
+        time15.setAlignmentX(0.5F);
+        horariosPanel.add(time15);
+
+        time16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time16.setText("16:00");
+        time16.setAlignmentX(0.5F);
+        horariosPanel.add(time16);
+
+        time17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time17.setText("17:00");
+        time17.setAlignmentX(0.5F);
+        horariosPanel.add(time17);
+
+        time18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time18.setText("18:00");
+        time18.setAlignmentX(0.5F);
+        horariosPanel.add(time18);
+
+        time19.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time19.setText("19:00");
+        time19.setAlignmentX(0.5F);
+        horariosPanel.add(time19);
+
+        time20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time20.setText("20:00");
+        time20.setAlignmentX(0.5F);
+        horariosPanel.add(time20);
+
+        time21.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time21.setText("21:00");
+        time21.setAlignmentX(0.5F);
+        horariosPanel.add(time21);
+
+        time22.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time22.setText("22:00");
+        time22.setAlignmentX(0.5F);
+        horariosPanel.add(time22);
+
+        time23.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time23.setText("23:00");
+        time23.setAlignmentX(0.5F);
+        horariosPanel.add(time23);
+
+        time24.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        time24.setText("24:00");
+        time24.setAlignmentX(0.5F);
+        horariosPanel.add(time24);
+
+        diasSemana1.add(horariosPanel);
+
+        domingoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        domingoPanel.setPreferredSize(new java.awt.Dimension(100, 447));
+        domingoPanel.setLayout(new javax.swing.BoxLayout(domingoPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        diasSemana1.add(domingoPanel);
+
+        segundaPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        segundaPanel.setPreferredSize(new java.awt.Dimension(100, 447));
+        segundaPanel.setLayout(new javax.swing.BoxLayout(segundaPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        diasSemana1.add(segundaPanel);
+
+        tercaPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        tercaPanel.setPreferredSize(new java.awt.Dimension(100, 447));
+        tercaPanel.setLayout(new javax.swing.BoxLayout(tercaPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        diasSemana1.add(tercaPanel);
+
+        quartaPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        quartaPanel.setPreferredSize(new java.awt.Dimension(100, 447));
+        quartaPanel.setLayout(new javax.swing.BoxLayout(quartaPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        diasSemana1.add(quartaPanel);
+
+        quintaPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        quintaPanel.setPreferredSize(new java.awt.Dimension(100, 447));
+        quintaPanel.setLayout(new javax.swing.BoxLayout(quintaPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        diasSemana1.add(quintaPanel);
+
+        sextaPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        sextaPanel.setPreferredSize(new java.awt.Dimension(100, 447));
+        sextaPanel.setLayout(new javax.swing.BoxLayout(sextaPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        diasSemana1.add(sextaPanel);
+
+        sabadoPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        sabadoPanel.setPreferredSize(new java.awt.Dimension(100, 447));
+        sabadoPanel.setLayout(new javax.swing.BoxLayout(sabadoPanel, javax.swing.BoxLayout.PAGE_AXIS));
+        diasSemana1.add(sabadoPanel);
+
+        rotinaPanel.add(diasSemana1, java.awt.BorderLayout.CENTER);
+
+        rotinaScroll.setViewportView(rotinaPanel);
+
+        painelRotina.add(rotinaScroll, java.awt.BorderLayout.CENTER);
+
+        tituloLabel.setBackground(new java.awt.Color(150, 150, 150));
+        tituloLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        tituloLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloLabel.setText("Calendário de Rotina");
+        tituloLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        painelRotina.add(tituloLabel, java.awt.BorderLayout.NORTH);
+
         InformacoesExtras.add(painelRotina);
 
         getContentPane().add(InformacoesExtras, java.awt.BorderLayout.EAST);
@@ -1429,8 +1932,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void preencherListaEventosFav()
-    {
+    private void preencherListaEventosFav() {
         listaEventosFav.removeAll();
         listaEventosFav.revalidate();
         listaEventosFav.repaint();
@@ -1463,9 +1965,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             System.err.println(excp);
         }
     }
-        
-    private void preencherListaEventosAtiv()
-    {
+
+    private void preencherListaEventosAtiv() {
         listaEventosAtiv.removeAll();
         listaEventosAtiv.revalidate();
         listaEventosAtiv.repaint();
@@ -1497,8 +1998,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro ao carregar do banco.");
             System.err.println(excp);
         }
-    }    
-    
+    }
+
     private void diaPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel11MouseClicked
     }//GEN-LAST:event_diaPanel11MouseClicked
 
@@ -1511,168 +2012,167 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_diaPanel13MouseClicked
 
     private void diaPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel14MouseClicked
-       
+
     }//GEN-LAST:event_diaPanel14MouseClicked
 
     private void diaPanel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel15MouseClicked
-       
+
     }//GEN-LAST:event_diaPanel15MouseClicked
 
     private void diaPanel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel16MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel16MouseClicked
 
     private void diaPanel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel17MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel17MouseClicked
 
     private void diaPanel21MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel21MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel21MouseClicked
 
     private void diaPanel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel22MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel22MouseClicked
 
     private void diaPanel23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel23MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel23MouseClicked
 
     private void diaPanel24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel24MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel24MouseClicked
 
     private void diaPanel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel25MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel25MouseClicked
 
     private void diaPanel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel26MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel26MouseClicked
 
     private void diaPanel27MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel27MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel27MouseClicked
 
     private void diaPanel31MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel31MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel31MouseClicked
 
     private void diaPanel32MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel32MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel32MouseClicked
 
     private void diaPanel33MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel33MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel33MouseClicked
 
     private void diaPanel34MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel34MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel34MouseClicked
 
     private void diaPanel35MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel35MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel35MouseClicked
 
     private void diaPanel36MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel36MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel36MouseClicked
 
     private void diaPanel37MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel37MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel37MouseClicked
 
     private void diaPanel41MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel41MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel41MouseClicked
 
     private void diaPanel42MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel42MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel42MouseClicked
 
     private void diaPanel43MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel43MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel43MouseClicked
 
     private void diaPanel44MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel44MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel44MouseClicked
 
     private void diaPanel45MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel45MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel45MouseClicked
 
     private void diaPanel46MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel46MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel46MouseClicked
 
     private void diaPanel47MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel47MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel47MouseClicked
 
     private void diaPanel51MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel51MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel51MouseClicked
 
     private void diaPanel52MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel52MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel52MouseClicked
 
     private void diaPanel53MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel53MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel53MouseClicked
 
     private void diaPanel54MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel54MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel54MouseClicked
 
     private void diaPanel55MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel55MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel55MouseClicked
 
     private void diaPanel56MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel56MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel56MouseClicked
 
     private void diaPanel57MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel57MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel57MouseClicked
 
     private void diaPanel61MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel61MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel61MouseClicked
 
     private void diaPanel62MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel62MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel62MouseClicked
 
     private void diaPanel63MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel63MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel63MouseClicked
 
     private void diaPanel64MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel64MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel64MouseClicked
 
     private void diaPanel65MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel65MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel65MouseClicked
 
     private void diaPanel66MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel66MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel66MouseClicked
 
     private void diaPanel67MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_diaPanel67MouseClicked
-        
+
     }//GEN-LAST:event_diaPanel67MouseClicked
 
     private void arrowLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_arrowLActionPerformed
         // clicou pra esquerda, diminui um mês
-        if (mesExibido == 1){
+        if (mesExibido == 1) {
             mesExibido = 12;
             anoExibido--;
-        }
-        else{
+        } else {
             mesExibido--;
         }
         preencherCalendario(mesExibido, anoExibido);
@@ -1683,25 +2183,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
         if (mesExibido == 12) {
             mesExibido = 1;
             anoExibido++;
-        }
-        else{
+        } else {
             mesExibido++;
         }
         preencherCalendario(mesExibido, anoExibido);
     }//GEN-LAST:event_arrowRActionPerformed
 
     private void BotaoAddEventoSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoSemanalActionPerformed
-        new  AdicionarEventoSemanal().setVisible(true);
+        new AdicionarEventoSemanal().setVisible(true);
     }//GEN-LAST:event_BotaoAddEventoSemanalActionPerformed
 
     private void BotaoAddEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAddEventoActionPerformed
-        AdicionarEvento av = new  AdicionarEvento();
+        AdicionarEvento av = new AdicionarEvento();
         av.setVisible(true);
-        
+
     }//GEN-LAST:event_BotaoAddEventoActionPerformed
 
     private void BotaoRemoverSemanalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoRemoverSemanalActionPerformed
-        new  DeletarSemanal().setVisible(true);
+        new DeletarSemanal().setVisible(true);
     }//GEN-LAST:event_BotaoRemoverSemanalActionPerformed
 
     private void BotaoRemoverEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoRemoverEventoActionPerformed
@@ -1709,7 +2208,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotaoRemoverEventoActionPerformed
 
     private void BotaoExpandirListasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoExpandirListasActionPerformed
-        new  ListasExpandidas().setVisible(true);
+        new ListasExpandidas().setVisible(true);
     }//GEN-LAST:event_BotaoExpandirListasActionPerformed
 
     private void BotaoAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoAtualizarActionPerformed
@@ -1822,22 +2321,69 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel diaPanel65;
     private javax.swing.JPanel diaPanel66;
     private javax.swing.JPanel diaPanel67;
+    private javax.swing.JPanel diasSemana;
+    private javax.swing.JPanel diasSemana1;
+    private javax.swing.JPanel domingoPanel;
+    private javax.swing.JLabel domingoTitulo;
+    private javax.swing.JPanel horariosPanel;
+    private javax.swing.JLabel horariosTitulo;
     private javax.swing.JPanel listaEventosAtiv;
     private javax.swing.JPanel listaEventosFav;
-    private javax.swing.JScrollPane painelRotina;
+    private javax.swing.JPanel painelRotina;
     private javax.swing.JPanel panelTitulo;
     private javax.swing.JPanel panelTitulo2;
+    private javax.swing.JPanel quartaPanel;
+    private javax.swing.JLabel quartaTitulo;
+    private javax.swing.JPanel quintaPanel;
+    private javax.swing.JLabel quintaTitulo;
+    private javax.swing.JPanel rotinaPanel;
+    private javax.swing.JScrollPane rotinaScroll;
+    private javax.swing.JPanel sabadoPanel;
+    private javax.swing.JLabel sabadoTitulo;
     private javax.swing.JScrollPane scrollEventos;
     private javax.swing.JScrollPane scrollEventos2;
+    private javax.swing.JPanel segundaPanel;
+    private javax.swing.JLabel segundaTitulo;
+    private javax.swing.JPanel sextaPanel;
+    private javax.swing.JLabel sextaTitulo;
     private javax.swing.JPanel tabelaAtividades;
     private javax.swing.JPanel tabelaFavorito;
+    private javax.swing.JPanel tercaPanel;
+    private javax.swing.JLabel tercaTitulo;
     private javax.swing.JLabel textTitulo;
     private javax.swing.JLabel textTitulo2;
+    private javax.swing.JLabel time0;
+    private javax.swing.JLabel time1;
+    private javax.swing.JLabel time10;
+    private javax.swing.JLabel time11;
+    private javax.swing.JLabel time12;
+    private javax.swing.JLabel time13;
+    private javax.swing.JLabel time14;
+    private javax.swing.JLabel time15;
+    private javax.swing.JLabel time16;
+    private javax.swing.JLabel time17;
+    private javax.swing.JLabel time18;
+    private javax.swing.JLabel time19;
+    private javax.swing.JLabel time2;
+    private javax.swing.JLabel time20;
+    private javax.swing.JLabel time21;
+    private javax.swing.JLabel time22;
+    private javax.swing.JLabel time23;
+    private javax.swing.JLabel time24;
+    private javax.swing.JLabel time3;
+    private javax.swing.JLabel time4;
+    private javax.swing.JLabel time5;
+    private javax.swing.JLabel time6;
+    private javax.swing.JLabel time7;
+    private javax.swing.JLabel time8;
+    private javax.swing.JLabel time9;
+    private javax.swing.JLabel tituloLabel;
+    private javax.swing.JPanel tituloPanel;
     // End of variables declaration//GEN-END:variables
 
-    private JPanel getPanel(Integer linha, Integer col){
+    private JPanel getPanel(Integer linha, Integer col) {
         String op = linha.toString() + col.toString();
-        switch(op){
+        switch (op) {
             case "11":
                 return diaPanel11;
             case "12":
@@ -1923,8 +2469,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             case "67":
                 return diaPanel67;
             default:
-                 System.err.println("Coordenadas inválidas");
-                 return null;
-         }
+                System.err.println("Coordenadas inválidas");
+                return null;
+        }
     }
+
 }
